@@ -19,13 +19,17 @@ const SignupSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const [login, { error }] = useLoginMutation();
+  const [login] = useLoginMutation();
 
   const onSubmit = async (userData) => {
-    const response = await login(userData).unwrap();
-    console.log(error); // хотела посмотреть ответ от сервера
-    console.log(userData); // а тут что приходит из формы
-    console.log(response.data); // а тут тоже от сервера
+    try {
+      const response = await login(userData);
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      history.push('/');
+    } catch (error) {
+      console.error('Error login:', error);
+    }
   };
 
   return (
@@ -55,14 +59,20 @@ const LoginForm = () => {
                           type="username"
                           name="username"
                           className="form-control"
+                          required
+                          placeholder="Ваш ник"
+                          id="username"
                         />
                       </div>
                       <div className="form-floating mb-4">
-                        <label htmlFor="password">{t('loginForm.userPassword')}</label>
+                        <label htmlFor="password" className="form-label">{t('loginForm.userPassword')}</label>
                         <Field
                           type="password"
                           name="password"
                           className="form-control"
+                          required
+                          placeholder="Пароль"
+                          id="password"
                         />
                       </div>
                       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginForm.btn')}</button>
