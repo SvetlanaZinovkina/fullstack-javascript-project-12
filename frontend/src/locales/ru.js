@@ -9,6 +9,9 @@ export default {
       textNoAccount: 'Нет аккаунта?',
     },
   },
+  navBar: {
+    text: 'Zino chat',
+  },
   notFound: {
     notPage: 'Страница не найдена',
     mainLink: 'на главную страницу',

@@ -1,10 +1,11 @@
 import React from 'react';
-// import cn from 'classnames';
 import LoginForm from '../components/loginForm.jsx';
 import FooterLoginForm from '../components/footerLoginForm.jsx';
+import Navigation from '../components/navigation.jsx';
 
 const Login = () => (
   <>
+    <Navigation />
     <LoginForm />
     <FooterLoginForm />
   </>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
@@ -19,14 +20,13 @@ const SignupSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const [login] = useLoginMutation();
+  const [login, { error }] = useLoginMutation();
 
   const onSubmit = async (userData) => {
     try {
       const response = await login(userData);
       const { token } = response.data;
       localStorage.setItem('token', token);
-      history.push('/');
     } catch (error) {
       console.error('Error login:', error);
     }
@@ -54,7 +54,6 @@ const LoginForm = () => {
                   {() => (
                     <Form>
                       <div className="form-floating mb-3">
-                        <label htmlFor="username">{t('loginForm.userName')}</label>
                         <Field
                           type="username"
                           name="username"
@@ -63,9 +62,9 @@ const LoginForm = () => {
                           placeholder="Ваш ник"
                           id="username"
                         />
+                        <label htmlFor="username" className="form-label">{t('loginForm.userName')}</label>
                       </div>
                       <div className="form-floating mb-4">
-                        <label htmlFor="password" className="form-label">{t('loginForm.userPassword')}</label>
                         <Field
                           type="password"
                           name="password"
@@ -74,6 +73,7 @@ const LoginForm = () => {
                           placeholder="Пароль"
                           id="password"
                         />
+                        <label htmlFor="password" className="form-label">{t('loginForm.userPassword')}</label>
                       </div>
                       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginForm.btn')}</button>
                     </Form>

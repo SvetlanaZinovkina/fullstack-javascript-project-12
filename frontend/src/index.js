@@ -6,11 +6,7 @@ import App from './App.jsx';
 import './i18n.js';
 import store from './services/index.js';
 
-const rootContainer = document.createElement('div');
-// eslint-disable-next-line functional/no-expression-statements
-document.body.appendChild(rootContainer);
-
-const root = ReactDOM.createRoot(rootContainer);
+const root = ReactDOM.createRoot(document.getElementById('root'));
 // eslint-disable-next-line functional/no-expression-statements
 root.render(
   <Provider store={store}>
