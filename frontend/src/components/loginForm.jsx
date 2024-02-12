@@ -1,10 +1,12 @@
 import React from 'react';
-import { Redirect } from 'react-router';
+import { redirect } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import welcomeLogin from '../images/welcome_login.jpg';
-import { useLoginMutation } from '../services/loginApi.js';
+import { useDispatch } from 'react-redux';
+import { setUserToken } from '../slices/loginSlice.js';
+import { useLoginMutation } from '../services/loginApi.js';  
 // import cn from 'classnames';
 
 const SignupSchema = Yup.object().shape({
@@ -21,16 +23,23 @@ const SignupSchema = Yup.object().shape({
 const LoginForm = () => {
   const { t } = useTranslation();
   const [login, { error }] = useLoginMutation();
+  const dispatch = useDispatch();
 
   const onSubmit = async (userData) => {
     try {
       const response = await login(userData);
-      const { token } = response.data;
+      const { token, user } = response.data;
       localStorage.setItem('token', token);
+      dispatch(setUserToken({ user, token }));
+      redirect('/');
     } catch (error) {
       console.error('Error login:', error);
     }
   };
+  
+  const inputClassName = cn({
+    'form-control': true,
+    })
 
   return (
     <div className="container-fluid h-100">
