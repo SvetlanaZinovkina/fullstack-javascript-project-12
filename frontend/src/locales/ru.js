@@ -18,10 +18,6 @@ export default {
     textMuted: 'Но вы можете перейти',
   },
   warnings: {
-    errEmpty: 'Не должно быть пустым',
-    errUrl: 'Ссылка должна быть валидным URL',
-    errFeed: 'RSS уже существует',
-    errIncludes: 'Ресурс не содержит валидный RSS',
-    errNetwork: 'Ошибка сети',
+    errLogin: 'Неверные имя пользователя или пароль',
   },
 };

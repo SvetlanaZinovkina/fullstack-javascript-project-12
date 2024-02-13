@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { redirect } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import welcomeLogin from '../images/welcome_login.jpg';
 import { useDispatch } from 'react-redux';
+import welcomeLogin from '../images/welcome_login.jpg';
 import { setUserToken } from '../slices/loginSlice.js';
-import { useLoginMutation } from '../services/loginApi.js';  
+import { useLoginMutation } from '../services/loginApi.js';
 // import cn from 'classnames';
 
-const SignupSchema = Yup.object().shape({
+const SigninSchema = Yup.object().shape({
   username: Yup.string()
     .min(2, 'Минимум 2 буквы')
     .max(50, 'Максимум 50 букв')
@@ -22,7 +22,7 @@ const SignupSchema = Yup.object().shape({
 
 const LoginForm = () => {
   const { t } = useTranslation();
-  const [login, { error }] = useLoginMutation();
+  const [login, { isError }] = useLoginMutation();
   const dispatch = useDispatch();
 
   const onSubmit = async (userData) => {
@@ -31,15 +31,13 @@ const LoginForm = () => {
       const { token, user } = response.data;
       localStorage.setItem('token', token);
       dispatch(setUserToken({ user, token }));
-      redirect('/');
+      // if (!token) {
+      // }
+      return redirect('/');
     } catch (error) {
       console.error('Error login:', error);
     }
   };
-  
-  const inputClassName = cn({
-    'form-control': true,
-    })
 
   return (
     <div className="container-fluid h-100">
@@ -57,8 +55,8 @@ const LoginForm = () => {
                     username: '',
                     password: '',
                   }}
-                  validationSchema={SignupSchema}
-                  onSubmit={async (values) => await onSubmit(values)}
+                  validationSchema={SigninSchema}
+                  onSubmit={async (values) => onSubmit(values)}
                 >
                   {() => (
                     <Form>
@@ -83,6 +81,7 @@ const LoginForm = () => {
                           id="password"
                         />
                         <label htmlFor="password" className="form-label">{t('loginForm.userPassword')}</label>
+                        {isError && <div className="invalid-tooltip">{t('warnings.errLogin')}</div>}
                       </div>
                       <button type="submit" className="w-100 mb-3 btn btn-outline-primary">{t('loginForm.btn')}</button>
                     </Form>
