@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import api from './loginApi.js';
+import api from './api.js';
 import authReducer from '../slices/loginSlice.js';
 
 export default configureStore({
   reducer: {
     [api.reducerPath]: api.reducer,
-    authReducer,
+    auth: authReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
