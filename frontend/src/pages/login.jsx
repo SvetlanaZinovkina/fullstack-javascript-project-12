@@ -1,14 +1,12 @@
 import React from 'react';
 import LoginForm from '../components/loginForm.jsx';
-import FooterLoginForm from '../components/footerLoginForm.jsx';
 import Navigation from '../components/navigation.jsx';
 
 const Login = () => (
-  <>
+  <div className="d-flex flex-column h-100">
     <Navigation />
     <LoginForm />
-    <FooterLoginForm />
-  </>
+  </div>
 );
 
 export default Login;

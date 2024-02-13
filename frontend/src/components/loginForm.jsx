@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { redirect } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
+import cn from 'classnames';
 import welcomeLogin from '../images/welcome_login.jpg';
 import { setUserToken } from '../slices/loginSlice.js';
-import { useLoginMutation } from '../services/loginApi.js';
-// import cn from 'classnames';
+import { useLoginMutation } from '../services/api.js';
 
 const SigninSchema = Yup.object().shape({
   username: Yup.string()
@@ -24,6 +24,8 @@ const LoginForm = () => {
   const { t } = useTranslation();
   const [login, { isError }] = useLoginMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const classInputs = cn({ 'form-control': true, 'is-invalid': isError });
 
   const onSubmit = async (userData) => {
     try {
@@ -31,9 +33,7 @@ const LoginForm = () => {
       const { token, user } = response.data;
       localStorage.setItem('token', token);
       dispatch(setUserToken({ user, token }));
-      // if (!token) {
-      // }
-      return redirect('/');
+      navigate('/');
     } catch (error) {
       console.error('Error login:', error);
     }
@@ -64,7 +64,7 @@ const LoginForm = () => {
                         <Field
                           type="username"
                           name="username"
-                          className="form-control"
+                          className={classInputs}
                           required
                           placeholder="Ваш ник"
                           id="username"
@@ -75,7 +75,7 @@ const LoginForm = () => {
                         <Field
                           type="password"
                           name="password"
-                          className="form-control"
+                          className={classInputs}
                           required
                           placeholder="Пароль"
                           id="password"
@@ -87,6 +87,13 @@ const LoginForm = () => {
                     </Form>
                   )}
                 </Formik>
+              </div>
+            </div>
+            <div className="card-footer p-5 bg-white">
+              <div className="text-center">
+                <span>{t('loginForm.footer.textNoAccount')}</span>
+                {' '}
+                <a href="/signup">{t('loginForm.footer.signUp')}</a>
               </div>
             </div>
           </div>

@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-import { createSlice }from '@reduxjs/toolkit';
-
+import { createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
   name: 'auth',
@@ -10,9 +9,9 @@ const authSlice = createSlice({
     setUserToken: (state, { payload }) => {
       state.user = payload.user;
       state.token = payload.token;
-    }
-  }
-})
+    },
+  },
+});
 
 export const { setUserToken } = authSlice.actions;
 

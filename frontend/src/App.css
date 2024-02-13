@@ -3,7 +3,9 @@
 body {
     background: #f8f9fa;
 }
-
+.invalid-tooltip{
+    display:block;
+}
 .img-not-found {
     max-width: 100%;
     max-height: 300px;
