@@ -19,7 +19,7 @@ import Messages from './messages.jsx';
 
 const ChatForm = () => {
   const {
-    data, error, isLoading, refetch,
+    data, isLoading, refetch,
   } = useGetChannelsQuery();
   const dispatch = useDispatch();
   dispatch(setChannels(data));

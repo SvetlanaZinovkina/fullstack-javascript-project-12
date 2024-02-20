@@ -20,7 +20,7 @@ import { setUserToken } from '../slices/loginSlice';
 
 const Messages = () => {
   const {
-    data, error, isLoading, refetch,
+    data, isLoading, refetch,
   } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
   const [removeMessage] = useRemoveMessageMutation();

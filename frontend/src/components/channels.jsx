@@ -16,7 +16,7 @@ import arrow from '../images/arrow.png';
 const Channels = () => {
   const { t } = useTranslation();
   const {
-    data, error, isLoading, refetch,
+    data, isLoading, refetch,
   } = useGetChannelsQuery();
 
   const [addChannel] = useAddChannelMutation();
