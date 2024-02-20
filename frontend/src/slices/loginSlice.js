@@ -1,13 +1,11 @@
-import axios from 'axios';
-
 import { createSlice } from '@reduxjs/toolkit';
 
 const authSlice = createSlice({
   name: 'auth',
-  initialState: { user: null, token: null },
+  initialState: { username: null, token: null },
   reducers: {
     setUserToken: (state, { payload }) => {
-      state.user = payload.user;
+      state.username = payload.username;
       state.token = payload.token;
     },
   },

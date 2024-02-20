@@ -19,6 +19,7 @@ parserOptions:
 plugins:
   - react
   - functional
+  - import
 
 rules:
   import/extensions: 0

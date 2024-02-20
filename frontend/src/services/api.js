@@ -3,8 +3,9 @@ import routes from '../routes/routes.js';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: routes.path(),
-  prepareHeaders: (headers, { getState }) => {
-    const { token } = getState().auth;
+  prepareHeaders: (headers) => {
+    const token = localStorage.getItem('token');
+    // const { token } = getState().auth;
     if (token) {
       headers.set('Authorization', `Bearer ${token}`);
     }

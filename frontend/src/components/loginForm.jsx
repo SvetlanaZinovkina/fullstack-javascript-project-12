@@ -2,23 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import welcomeLogin from '../images/welcome_login.jpg';
 import { setUserToken } from '../slices/loginSlice.js';
 import { useLoginMutation } from '../services/api.js';
-
-const SigninSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(2, 'Минимум 2 буквы')
-    .max(50, 'Максимум 50 букв')
-    .required('Обязательное поле'),
-  password: Yup.string()
-    .min(2, 'Минимум 2 буквы')
-    .max(8, 'Максимум 8 букв')
-    .required('Обязательное поле'),
-});
+import { signinSchema } from './validationSchemas.js';
 
 const LoginForm = () => {
   const { t } = useTranslation();
@@ -31,8 +20,9 @@ const LoginForm = () => {
     try {
       const response = await login(userData);
       const { token, user } = response.data;
+      console.log(response);
       localStorage.setItem('token', token);
-      dispatch(setUserToken({ user, token }));
+      dispatch(setUserToken(response.data));
       navigate('/');
     } catch (error) {
       console.error('Error login:', error);
@@ -55,7 +45,7 @@ const LoginForm = () => {
                     username: '',
                     password: '',
                   }}
-                  validationSchema={SigninSchema}
+                  validationSchema={signinSchema}
                   onSubmit={async (values) => onSubmit(values)}
                 >
                   {() => (
