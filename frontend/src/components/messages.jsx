@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import io from 'socket.io-client';
 import cn from 'classnames';
-
 import {
   setMessages, addMessageState, editMessage, deleteMessage,
 } from '../slices/messagesSlice.js';
@@ -20,13 +20,16 @@ import { setUserToken } from '../slices/loginSlice';
 
 const Messages = () => {
   const {
-    data, isLoading, refetch,
+    data,
   } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
-  const [removeMessage] = useRemoveMessageMutation();
-
+  // const [removeMessage] = useRemoveMessageMutation();
+  const socket = io('http://localhost:3000');
   const dispatch = useDispatch();
-  dispatch(setMessages(data));
+  // eslint-disable-next-line functional/no-expression-statements
+  useEffect(() => {
+    dispatch(setMessages(data));
+  }, [data]);
   const messages = useSelector((state) => state.messages.messages);
   const { t } = useTranslation();
   const countMessages = useSelector((state) => (state.messages.messages ? state.messages.messages.length : 0));
@@ -34,24 +37,23 @@ const Messages = () => {
   const activeChannelId = useSelector((state) => state.channels.activeChannel);
   const activeChannel = channels.find((channel) => parseInt(channel.id) === activeChannelId);
   const userName = useSelector((state) => state.auth.username);
+
   const onSubmit = async (messageValue) => {
     try {
       const { message } = messageValue;
       const newMessage = { body: message, channelId: activeChannelId, username: userName };
       const response = await addMessage(newMessage);
-      dispatch(addMessageState(response.data));
+      // dispatch(addMessageState(response.data));
     } catch (error) {
       console.error('Error add message:', error);
     }
   };
-  // const onDelete = async (id) => {
-  //   try {
-  //     const response = await removeMessage(id);
-  //     dispatch(deleteMessage(response.data));
-  //   } catch (error) {
-  //     console.error('Error add message:', error);
-  //   }
-  // };
+
+  socket.on('newMessage', (payload) => {
+    console.log(payload);
+    // dispatch(addMessageState(payload));
+  });
+
   return (
     <div className="col p-0 h-100">
       <div className="d-flex flex-column h-100">
@@ -73,8 +75,8 @@ const Messages = () => {
                 <div key={id} className="text-break mb-2">
                   <b>{username}</b>
                   {': '}
-                  {id}
-                  <button disabled="" className="btn" />
+                  {body}
+                  <button type="submit" disabled="" className="btn" />
                 </div>
               );
             })

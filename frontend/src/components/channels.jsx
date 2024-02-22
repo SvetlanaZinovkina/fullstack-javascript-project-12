@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router';
+// import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
@@ -7,14 +7,12 @@ import { setChannels, setActiveChannel } from '../slices/channelsSlice.js';
 import {
   useGetChannelsQuery,
   useAddChannelMutation,
-  useEditChannelMutation,
-  useRemoveChannelMutation,
 } from '../services/api.js';
 import plus from '../images/plus.png';
-import arrow from '../images/arrow.png';
+// import arrow from '../images/arrow.png';
 
 const Channels = () => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const {
     data, isLoading, refetch,
   } = useGetChannelsQuery();

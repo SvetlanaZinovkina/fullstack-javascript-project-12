@@ -17,6 +17,7 @@ const messagesSlice = createSlice({
       const messageToEdit = state.messages.find((message) => message.id === messageId);
 
       if (messageToEdit) {
+        // eslint-disable-next-line functional/no-expression-statements
         messageToEdit.body = newBody;
       }
     },
