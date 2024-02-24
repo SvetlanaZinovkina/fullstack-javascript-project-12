@@ -19,9 +19,9 @@ const LoginForm = () => {
   const onSubmit = async (userData) => {
     try {
       const response = await login(userData);
-      const { token, user } = response.data;
-      console.log(response);
+      const { token, username } = response.data;
       localStorage.setItem('token', token);
+      localStorage.setItem('username', username);
       dispatch(setUserToken(response.data));
       navigate('/');
     } catch (error) {

@@ -44,18 +44,43 @@ const Channels = () => {
       </div>
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((chanel) => {
-          const { id, name } = chanel;
-          const classChannel = cn('w-100', 'rounded-30', 'text-start', 'btn', { 'btn-warning': activeChannel === parseInt(id, 10) });
+          const { id, name, removable } = chanel;
+          const classChannel = cn('w-100', 'rounded-30', 'text-start', 'btn', { 'btn-warning': activeChannel === parseInt(id, 10), 'btn-secondary': removable, 'text-truncate': removable });
           return (
             <li className="nav-item w-100" key={id}>
-              <button type="button" className={classChannel} onClick={() => handleChannelClick(parseInt(id, 10))}>
-                <span
-                  className="me-1"
-                >
-                  #
-                </span>
-                {name}
-              </button>
+              {removable ? (
+                <div role="group" className="d-flex dropdown btn-group">
+                  <button type="button" className={classChannel} onClick={() => handleChannelClick(parseInt(id, 10))}>
+                    <span
+                      className="me-1"
+                    >
+                      #
+                    </span>
+                    vvv
+                  </button>
+                  <button
+                    type="button"
+                    id="react-aria8515026025-:r1:"
+                    aria-expanded="false"
+                    className="flex-grow-0 dropdown-toggle dropdown-toggle-split btn btn-secondary"
+                  >
+                    <span
+                      className="visually-hidden"
+                    >
+                      Управление каналом
+                    </span>
+                  </button>
+                </div>
+              ) : (
+                <button type="button" className={classChannel} onClick={() => handleChannelClick(parseInt(id, 10))}>
+                  <span
+                    className="me-1"
+                  >
+                    #
+                  </span>
+                  {name}
+                </button>
+              )}
             </li>
           );
         })}

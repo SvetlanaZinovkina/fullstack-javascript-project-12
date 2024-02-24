@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import io from 'socket.io-client';
 import cn from 'classnames';
 import {
   setMessages, addMessageState, editMessage, deleteMessage,
@@ -18,40 +17,42 @@ import arrow from '../images/arrow.png';
 import { messagesSchema } from './validationSchemas';
 import { setUserToken } from '../slices/loginSlice';
 
-const Messages = () => {
+const Messages = ({ socket }) => {
+  const { t } = useTranslation();
   const {
-    data,
+    data, refetch,
   } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
-  // const [removeMessage] = useRemoveMessageMutation();
-  const socket = io('http://localhost:3000');
   const dispatch = useDispatch();
-  // eslint-disable-next-line functional/no-expression-statements
-  useEffect(() => {
-    dispatch(setMessages(data));
-  }, [data]);
+  dispatch(setMessages(data));
   const messages = useSelector((state) => state.messages.messages);
-  const { t } = useTranslation();
-  const countMessages = useSelector((state) => (state.messages.messages ? state.messages.messages.length : 0));
+
+  useEffect(() => {
+    console.log('changes');
+  }, [socket, messages]);
+  const countMessages = messages ? messages.length : 0;
+  const usernameLocalstorage = localStorage.getItem('username');
   const channels = useSelector((state) => state.channels.channels);
   const activeChannelId = useSelector((state) => state.channels.activeChannel);
   const activeChannel = channels.find((channel) => parseInt(channel.id) === activeChannelId);
-  const userName = useSelector((state) => state.auth.username);
-
-  const onSubmit = async (messageValue) => {
+  const onSubmit = async (messageValue, { resetForm }) => {
     try {
       const { message } = messageValue;
-      const newMessage = { body: message, channelId: activeChannelId, username: userName };
-      const response = await addMessage(newMessage);
-      // dispatch(addMessageState(response.data));
+      const newMessage = {
+        body: message,
+        channelId: activeChannelId,
+        username: usernameLocalstorage,
+      };
+      await addMessage(newMessage);
+      resetForm();
     } catch (error) {
       console.error('Error add message:', error);
     }
   };
 
   socket.on('newMessage', (payload) => {
+    dispatch(addMessageState(payload));
     console.log(payload);
-    // dispatch(addMessageState(payload));
   });
 
   return (
@@ -70,8 +71,10 @@ const Messages = () => {
         <div id="messages-box" className="chat-messages overflow-auto px-5 ">
           {countMessages > 0 ? (
             messages.map((message) => {
-              const { body, username, id } = message;
-              return (
+              const {
+                body, username, id, channelId,
+              } = message;
+              return channelId === activeChannelId && (
                 <div key={id} className="text-break mb-2">
                   <b>{username}</b>
                   {': '}
@@ -90,7 +93,7 @@ const Messages = () => {
               message: '',
             }}
             validationSchema={messagesSchema}
-            onSubmit={async (values) => onSubmit(values)}
+            onSubmit={async (values, { resetForm }) => onSubmit(values, { resetForm })}
           >
             {() => (
               <Form noValidate="" className="py-1 border rounded-2">
@@ -104,27 +107,12 @@ const Messages = () => {
                   />
                   <button type="submit" disabled="" className="btn btn-group-vertical">
                     <img src={arrow} width="20" height="20" alt="отправить" />
-                    <span className="visually-hidden">Отправить</span>
+                    <span className="visually-hidden">{t('chat.sendBtn')}</span>
                   </button>
                 </div>
               </Form>
             )}
           </Formik>
-          {/* <form noValidate="" className="py-1 border rounded-2"> */}
-          {/*  <div className="input-group has-validation"> */}
-          {/*    <input */}
-          {/*      name="body" */}
-          {/*      aria-label="Новое сообщение" */}
-          {/*      placeholder={t('chat.enterMessage')} */}
-          {/*      className="border-0 p-0 ps-2 form-control" */}
-          {/*      value="" */}
-          {/*    /> */}
-          {/*    <button type="submit" disabled="" className="btn btn-group-vertical"> */}
-          {/*      <img src={arrow} width="20" height="20" alt="отправить" /> */}
-          {/*      <span className="visually-hidden">Отправить</span> */}
-          {/*    </button> */}
-          {/*  </div> */}
-          {/* </form> */}
         </div>
       </div>
     </div>

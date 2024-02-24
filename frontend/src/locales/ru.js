@@ -18,6 +18,7 @@ export default {
     message_few: '{{count}} сooбщения',
     message_many: '{{count}} сooбщений',
     enterMessage: 'Введите сообщение...',
+    sendBtn: 'Отправить',
   },
   notFound: {
     notPage: 'Страница не найдена',
@@ -26,5 +27,12 @@ export default {
   },
   warnings: {
     errLogin: 'Неверные имя пользователя или пароль',
+  },
+  modal: {
+    addChannel: 'Добавить канал',
+    cancelBtn: 'Отменить',
+    sendBtn: 'Отправить',
+    deleteBtn: 'Удалить',
+    renameBtn: 'Переименовать',
   },
 };
