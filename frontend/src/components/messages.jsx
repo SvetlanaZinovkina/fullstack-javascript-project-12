@@ -24,12 +24,12 @@ const Messages = ({ socket }) => {
   } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
   const dispatch = useDispatch();
-  dispatch(setMessages(data));
   const messages = useSelector((state) => state.messages.messages);
+  dispatch(setMessages(data));
 
-  useEffect(() => {
-    console.log('changes');
-  }, [socket, messages]);
+  // useEffect(() => {
+  //     dispatch(setMessages(data));
+  //   }, []);
   const countMessages = messages ? messages.length : 0;
   const usernameLocalstorage = localStorage.getItem('username');
   const channels = useSelector((state) => state.channels.channels);
@@ -52,7 +52,6 @@ const Messages = ({ socket }) => {
 
   socket.on('newMessage', (payload) => {
     dispatch(addMessageState(payload));
-    console.log(payload);
   });
 
   return (
