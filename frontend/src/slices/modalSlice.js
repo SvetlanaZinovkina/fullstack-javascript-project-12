@@ -17,6 +17,6 @@ const modalSlice = createSlice({
   },
 });
 
-export const { setOpenModal } = modalSlice.actions;
+export const { openModal, closeModal } = modalSlice.actions;
 
 export default modalSlice.reducer;

@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { channelsSchema } from '../validationSchemas.js';
 
-const ModalAddChannel = () => {
+const ModalAddChannel = ({ socket }) => {
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels.channels);
 

@@ -5,11 +5,11 @@ import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { channelsSchema } from '../validationSchemas.js';
 
-const ModalAddChannel = () => {
+const ModalAddChannel = ({ socket }) => {
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels.channels);
 
-  const onSubmit = () => {
+  const handleAddChannel = (dataChannel) => {
 
   };
   return (
@@ -18,7 +18,7 @@ const ModalAddChannel = () => {
         name: '',
       }}
       validationSchema={channelsSchema(channels)}
-      onSubmit={async (values) => onSubmit(values)}
+      onSubmit={async (values) => handleAddChannel(values)}
     >
       {({ errors, touched }) => (
         <Form className="">

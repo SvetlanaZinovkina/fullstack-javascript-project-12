@@ -6,20 +6,20 @@ import ModalAddChannel from './modalAddChannel.jsx';
 import ModalDeleteChannel from './modalDeleteChannel.jsx';
 import ModalRenameChannel from './modalRenameChannel.jsx';
 
-const Modal = () => {
+const Modal = ({ socket }) => {
   const { t } = useTranslation();
   const type = useSelector((state) => state.modal.type);
   let currentModal;
 
   switch (type) {
     case 'addChannel':
-      currentModal = <ModalAddChannel />;
+      currentModal = <ModalAddChannel socket={socket} />;
       break;
     case 'deleteChannel':
-      currentModal = <ModalDeleteChannel />;
+      currentModal = <ModalDeleteChannel socket={socket} />;
       break;
     case 'renameChannel':
-      currentModal = <ModalRenameChannel />;
+      currentModal = <ModalRenameChannel socket={socket} />;
       break;
     default:
       currentModal = null;
@@ -28,7 +28,7 @@ const Modal = () => {
   return (
     <>
       <div className="fade modal-backdrop show" />
-      <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1">
+      <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">

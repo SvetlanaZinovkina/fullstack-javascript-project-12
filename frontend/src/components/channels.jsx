@@ -4,12 +4,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { setChannels, setActiveChannel } from '../slices/channelsSlice.js';
+import { openModal } from '../slices/modalSlice.js';
+
 import {
   useGetChannelsQuery,
   useAddChannelMutation,
 } from '../services/api.js';
 import plus from '../images/plus.png';
-import { ModalAddChannel } from './modal/modal.jsx';
 
 const Channels = () => {
   // const { t } = useTranslation();
@@ -28,6 +29,7 @@ const Channels = () => {
 
   const handleChannelClick = (id) => dispatch(setActiveChannel(id));
   const handleAddChannel = () => {
+    dispatch(openModal({ type: 'addChannel' }));
     console.log('rere');
   };
 
