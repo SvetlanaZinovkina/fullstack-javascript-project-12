@@ -9,7 +9,7 @@ import {
   useAddChannelMutation,
 } from '../services/api.js';
 import plus from '../images/plus.png';
-// import arrow from '../images/arrow.png';
+import { ModalAddChannel } from './modal/modal.jsx';
 
 const Channels = () => {
   // const { t } = useTranslation();
@@ -27,12 +27,15 @@ const Channels = () => {
   const activeChannel = useSelector((state) => state.channels.activeChannel);
 
   const handleChannelClick = (id) => dispatch(setActiveChannel(id));
+  const handleAddChannel = () => {
+    console.log('rere');
+  };
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
         <b>Каналы</b>
-        <button type="button" className="p-0 text-primary btn btn-group-vertical">
+        <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleAddChannel}>
           <img
             src={plus}
             alt="добавить"

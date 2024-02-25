@@ -50,9 +50,7 @@ const Messages = ({ socket }) => {
     }
   };
 
-  socket.on('newMessage', (payload) => {
-    dispatch(addMessageState(payload));
-  });
+  socket.on('newMessage', (payload) => dispatch(addMessageState(payload)));
 
   return (
     <div className="col p-0 h-100">
@@ -83,7 +81,7 @@ const Messages = ({ socket }) => {
               );
             })
           ) : (
-            <div>Нет сообщений</div>
+            <div>Нет сообщений...</div>
           )}
         </div>
         <div className="mt-auto px-5 py-3">

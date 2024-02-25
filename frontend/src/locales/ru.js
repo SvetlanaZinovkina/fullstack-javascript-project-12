@@ -30,9 +30,11 @@ export default {
   },
   modal: {
     addChannel: 'Добавить канал',
+    deleteChannel: 'Удалить канал',
+    renameChannel: 'Переименовать канал',
     cancelBtn: 'Отменить',
     sendBtn: 'Отправить',
     deleteBtn: 'Удалить',
-    renameBtn: 'Переименовать',
+    areSure: 'Уверены?',
   },
 };

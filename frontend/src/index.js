@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import './index.css';
 import App from './App.jsx';
 import './i18n.js';
-import store from './services/index.js';
+import store from './services/store.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 // eslint-disable-next-line functional/no-expression-statements
