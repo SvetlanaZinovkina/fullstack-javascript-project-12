@@ -9,14 +9,14 @@ import { addChannelState } from '../../slices/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/api.js';
 import { addMessageState } from '../../slices/messagesSlice';
 
-const ModalAddChannel = ({ socket }) => {
+const ModalAddChannel = ({ socket, handleCloseModal}) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [addChannel] = useAddChannelMutation();
 
   const channels = useSelector((state) => state.channels.channels);
 
-  const handleCloseModal = () => dispatch(closeModal());
+  // const handleCloseModal = () => dispatch(closeModal());
 
   const handleAddChannel = async (dataChannel) => {
     try {

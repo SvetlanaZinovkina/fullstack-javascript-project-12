@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { channelsSchema } from '../validationSchemas.js';
 
-const ModalAddChannel = ({ socket }) => {
+const ModalAddChannel = ({ socket, handleCloseModal}) => {
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels.channels);
 
@@ -32,14 +32,14 @@ const ModalAddChannel = ({ socket }) => {
             </label>
             <div className="invalid-feedback" />
             <div className="d-flex justify-content-end">
-              <button type="button" className="me-2 btn btn-secondary">{t('modal.cancelBtn')}</button>
+              <button type="button" className="me-2 btn btn-secondary" onClick={handleCloseModal}>{t('modal.cancelBtn')}</button>
               <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
             </div>
           </div>
         </Form>
       )}
     </Formik>
-  );
+    );
 };
 
 export default ModalAddChannel;
