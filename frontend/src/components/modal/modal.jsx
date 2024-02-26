@@ -1,13 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
+import { closeModal } from '../../slices/modalSlice.js';
 import ModalAddChannel from './modalAddChannel.jsx';
 import ModalDeleteChannel from './modalDeleteChannel.jsx';
 import ModalRenameChannel from './modalRenameChannel.jsx';
 
 const Modal = ({ socket }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const type = useSelector((state) => state.modal.type);
   let currentModal;
 
@@ -24,6 +26,7 @@ const Modal = ({ socket }) => {
     default:
       currentModal = null;
   }
+  const handleCloseModal = () => dispatch(closeModal());
 
   return (
     <>
@@ -38,6 +41,7 @@ const Modal = ({ socket }) => {
                 aria-label="Close"
                 data-bs-dismiss="modal"
                 className="btn btn-close"
+                onClick={handleCloseModal}
               />
             </div>
             <div className="modal-body">{currentModal}</div>
