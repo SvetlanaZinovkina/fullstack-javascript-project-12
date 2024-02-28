@@ -9,18 +9,17 @@ import { addChannelState } from '../../slices/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/api.js';
 import { addMessageState } from '../../slices/messagesSlice';
 
-const ModalAddChannel = ({ socket, handleCloseModal}) => {
+const ModalAddChannel = ({ socket, handleCloseModal }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [addChannel] = useAddChannelMutation();
 
   const channels = useSelector((state) => state.channels.channels);
 
-  // const handleCloseModal = () => dispatch(closeModal());
-
   const handleAddChannel = async (dataChannel) => {
     try {
-      const { channel } = dataChannel;
+      const { name } = dataChannel;
+      console.log(dataChannel);
       const newChannel = {
         name: channel,
       };
@@ -44,7 +43,11 @@ const ModalAddChannel = ({ socket, handleCloseModal}) => {
       {({ errors, touched }) => (
         <Form className="">
           <div>
-            <Field name="name" id="name" className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })} />
+            <Field
+              name="name"
+              id="name"
+              className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
+            />
             <label
               className="visually-hidden"
               htmlFor="name"
@@ -54,7 +57,7 @@ const ModalAddChannel = ({ socket, handleCloseModal}) => {
             <div className="invalid-feedback" />
             <div className="d-flex justify-content-end">
               <button type="button" className="me-2 btn btn-secondary" onClick={handleCloseModal}>{t('modal.cancelBtn')}</button>
-              <button type="submit" className="btn btn-primary" onClick={handleAddChannel}>{t('modal.sendBtn')}</button>
+              <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
             </div>
           </div>
         </Form>

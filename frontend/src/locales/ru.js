@@ -10,7 +10,7 @@ export default {
     },
   },
   navBar: {
-    text: 'Zino chat',
+    text: 'Hexlet chat',
   },
   chat: {
     channelText: 'Каналы',
@@ -35,6 +35,7 @@ export default {
     cancelBtn: 'Отменить',
     sendBtn: 'Отправить',
     deleteBtn: 'Удалить',
+    renameBtn: 'Переименовать',
     areSure: 'Уверены?',
   },
 };

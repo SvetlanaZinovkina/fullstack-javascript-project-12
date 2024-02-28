@@ -8,11 +8,13 @@ import Modal from '../components/modal/modal.jsx';
 const Chat = ({ socket }) => {
   const isModal = useSelector((state) => state.modal.isOpened);
   return (
-    <>
-      <Navigation />
-      <ChatForm socket={socket} />
-      {isModal && <Modal socket={socket} />}
-    </>
+    <div className="h-100" id="chat">
+      <div className="d-flex flex-column h-100">
+        <Navigation />
+        <ChatForm socket={socket} />
+        {isModal && <Modal socket={socket} />}
+      </div>
+    </div>
   );
 };
 

@@ -5,7 +5,7 @@ import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { channelsSchema } from '../validationSchemas.js';
 
-const ModalAddChannel = ({ socket, handleCloseModal}) => {
+const ModalRenameChannel = ({ socket, handleCloseModal }) => {
   const { t } = useTranslation();
   const channels = useSelector((state) => state.channels.channels);
 
@@ -39,7 +39,7 @@ const ModalAddChannel = ({ socket, handleCloseModal}) => {
         </Form>
       )}
     </Formik>
-    );
+  );
 };
 
-export default ModalAddChannel;
+export default ModalRenameChannel;

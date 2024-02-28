@@ -5,12 +5,10 @@ import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { channelsSchema } from '../validationSchemas.js';
 
-const ModalDeleteChannel = ({ socket, handleCloseModal }) => {
+const ModalDeleteChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const channels = useSelector((state) => state.channels.channels);
-  
-  // const handleCloseModal = () => dispatch(closeModal());
 
   const handleDeleteChannel = () => {
 

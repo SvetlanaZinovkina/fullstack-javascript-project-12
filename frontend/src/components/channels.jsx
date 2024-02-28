@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 // import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
+import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { setChannels, setActiveChannel } from '../slices/channelsSlice.js';
 import { openModal } from '../slices/modalSlice.js';
 
@@ -13,7 +14,7 @@ import {
 import plus from '../images/plus.png';
 
 const Channels = () => {
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
   const {
     data, isLoading, refetch,
   } = useGetChannelsQuery();
@@ -28,10 +29,12 @@ const Channels = () => {
   const activeChannel = useSelector((state) => state.channels.activeChannel);
 
   const handleChannelClick = (id) => dispatch(setActiveChannel(id));
-  const handleAddChannel = () => {
-    dispatch(openModal({ type: 'addChannel' }));
-    console.log('rere');
-  };
+
+  const handleAddChannel = () => dispatch(openModal({ type: 'addChannel' }));
+
+  const handleDelete = () => dispatch(openModal({ type: 'deleteChannel' }));
+
+  const handleRename = () => dispatch(openModal({ type: 'renameChannel' }));
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column d-flex">
@@ -57,26 +60,23 @@ const Channels = () => {
             <li className="nav-item w-100" key={id}>
               {removable ? (
                 <div role="group" className="d-flex dropdown btn-group">
-                  <button type="button" className={classChannel} onClick={() => handleChannelClick(parseInt(id, 10))}>
-                    <span
-                      className="me-1"
+                  <Dropdown as={ButtonGroup}>
+                    <Button variant="outline" className={classChannel} onClick={() => handleChannelClick(parseInt(id, 10))}>
+                      {`# ${name}`}
+                    </Button>
+                    <Dropdown.Toggle
+                      variant="outline"
+                      id="channelDropdown"
+                      className={classChannelModal}
                     >
-                      #
-                    </span>
-                    vvv
-                  </button>
-                  <button
-                    type="button"
-                    id="react-aria8515026025-:r1:"
-                    aria-expanded="false"
-                    className={classChannelModal}
-                  >
-                    <span
-                      className="visually-hidden"
-                    >
-                      Управление каналом
-                    </span>
-                  </button>
+                      <span className="visually-hidden">Управление каналом</span>
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu style={{ position: 'absolute', inset: '0px auto auto 0px', transform: 'translate(-8px, 40px)' }}>
+                      <Dropdown.Item onClick={handleDelete}>{t('modal.deleteBtn')}</Dropdown.Item>
+                      <Dropdown.Item onClick={handleRename}>{t('modal.renameBtn')}</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
                 </div>
               ) : (
                 <button type="button" className={classChannel} onClick={() => handleChannelClick(parseInt(id, 10))}>

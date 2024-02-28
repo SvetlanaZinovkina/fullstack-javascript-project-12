@@ -17,7 +17,7 @@ import arrow from '../images/arrow.png';
 import { messagesSchema } from './validationSchemas';
 import { setUserToken } from '../slices/loginSlice';
 
-const Messages = ({ socket }) => {
+const MessagesBox = ({ socket }) => {
   const { t } = useTranslation();
   const {
     data, refetch,
@@ -93,7 +93,7 @@ const Messages = ({ socket }) => {
             onSubmit={async (values, { resetForm }) => onSubmit(values, { resetForm })}
           >
             {() => (
-              <Form noValidate="" className="py-1 border rounded-2">
+              <Form className="py-1 border rounded-2">
                 <div className="input-group has-validation">
                   <Field
                     type="message"
@@ -116,4 +116,4 @@ const Messages = ({ socket }) => {
   );
 };
 
-export default Messages;
+export default MessagesBox;

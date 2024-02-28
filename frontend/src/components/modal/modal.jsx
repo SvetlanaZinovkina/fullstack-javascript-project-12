@@ -12,23 +12,22 @@ const Modal = ({ socket }) => {
   const dispatch = useDispatch();
   const type = useSelector((state) => state.modal.type);
   let currentModal;
-  
+
   const handleCloseModal = () => dispatch(closeModal());
 
   switch (type) {
     case 'addChannel':
-      currentModal = <ModalAddChannel socket={socket} handleCloseModal={handleCloseModal}/>;
+      currentModal = <ModalAddChannel socket={socket} handleCloseModal={handleCloseModal} />;
       break;
     case 'deleteChannel':
-      currentModal = <ModalDeleteChannel socket={socket} handleCloseModal={handleCloseModal}/>;
+      currentModal = <ModalDeleteChannel socket={socket} handleCloseModal={handleCloseModal} />;
       break;
     case 'renameChannel':
-      currentModal = <ModalRenameChannel socket={socket} handleCloseModal={handleCloseModal}/>;
+      currentModal = <ModalRenameChannel socket={socket} handleCloseModal={handleCloseModal} />;
       break;
     default:
       currentModal = null;
   }
-  
 
   return (
     <>

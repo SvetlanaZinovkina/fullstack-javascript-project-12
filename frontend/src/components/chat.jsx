@@ -17,7 +17,7 @@ import {
   useRemoveMessageMutation, useLoginMutation,
 } from '../services/api.js';
 import Channels from './channels.jsx';
-import Messages from './messages.jsx';
+import MessagesBox from './messagesBox.jsx';
 
 const ChatForm = ({ socket }) => {
   const {
@@ -49,7 +49,7 @@ const ChatForm = ({ socket }) => {
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
       <div className="row h-100 bg-white flex-md-row">
         <Channels socket={socket} />
-        <Messages socket={socket} />
+        <MessagesBox socket={socket} />
       </div>
     </div>
   );

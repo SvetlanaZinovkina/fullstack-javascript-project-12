@@ -12,7 +12,5 @@ export default configureStore({
     channels: channelsReducer,
     messages: messagesReducer,
     modal: modalReducer,
-
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(api.middleware),
 });
