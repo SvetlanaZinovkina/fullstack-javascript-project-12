@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
-// import { useNavigate } from 'react-router';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { setChannels, setActiveChannel } from '../slices/channelsSlice.js';
 import { openModal } from '../slices/modalSlice.js';
-
 import {
   useGetChannelsQuery,
   useAddChannelMutation,
@@ -16,9 +14,9 @@ import plus from '../images/plus.png';
 const Channels = () => {
   const { t } = useTranslation();
   const {
-    data, isLoading, refetch,
+    data,
   } = useGetChannelsQuery();
-
+  console.log(data);
   const [addChannel] = useAddChannelMutation();
 
   const dispatch = useDispatch();
