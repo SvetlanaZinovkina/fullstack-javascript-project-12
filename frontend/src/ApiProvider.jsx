@@ -14,12 +14,19 @@ export const ApiProvider = ({ children }) => {
     });
   });
 
-  const socketApi = useMemo(() => ({
+  const socketApi = {
     addMessage: (message) => emitData('newMessage', message),
     addChannel: (channel) => emitData('newChannel', channel),
     renameChannel: (channel) => emitData('renameChannel', channel),
     removeChannel: (channel) => emitData('removeChannel', channel),
-  }), []);
+  };
+
+  // const socketApi = useMemo(() => ({
+  //   addMessage: (message) => emitData('newMessage', message),
+  //   addChannel: (channel) => emitData('newChannel', channel),
+  //   renameChannel: (channel) => emitData('renameChannel', channel),
+  //   removeChannel: (channel) => emitData('removeChannel', channel),
+  // }), []);
 
   return (
     <SocketContext.Provider value={socketApi}>

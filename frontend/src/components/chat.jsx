@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -18,28 +18,12 @@ import {
 } from '../services/api.js';
 import Channels from './channels.jsx';
 import MessagesBox from './messagesBox.jsx';
+import { setMessages } from '../slices/messagesSlice';
 
 const ChatForm = ({ socket }) => {
-  const {
-    data, isLoading, refetch,
-  } = useGetChannelsQuery();
-  const dispatch = useDispatch();
-  dispatch(setChannels(data));
-  const channels = useSelector((state) => state.channels.channels);
-  const user = useSelector((state) => state.auth);
-  const activeChannel = useSelector((state) => state.channels.activeChannel);
-  const { t } = useTranslation();
   const navigate = useNavigate();
 
   const token = localStorage.getItem('token');
-
-  if (isLoading) {
-    return (
-      <div className="spinner-border text-warning" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </div>
-    );
-  }
 
   if (!token) {
     return navigate('/login');

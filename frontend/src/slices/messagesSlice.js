@@ -10,7 +10,9 @@ const messagesSlice = createSlice({
       state.messages = action.payload;
     },
     addMessageState: (state, action) => {
-      state.messages.push(action.payload);
+      state.messages = [...state.messages, action.payload];
+
+      // state.messages.push(action.payload);
     },
     editMessage: (state, action) => {
       const { messageId, newBody } = action.payload;

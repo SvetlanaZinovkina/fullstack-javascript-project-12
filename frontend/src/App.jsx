@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
+import { useDispatch } from 'react-redux';
 import store from './services/store.js';
 import i18n from './i18n';
 import Login from './pages/login.jsx';
@@ -12,11 +13,12 @@ import { addChannelState } from './slices/channelsSlice.js';
 import { addMessageState } from './slices/messagesSlice.js';
 
 const App = () => {
+  const dispatch = useDispatch();
   socket.on('newMessage', (message) => {
-    store.dispatch(addMessageState(message));
+    dispatch(addMessageState(message));
   });
   socket.on('newChannel', (channel) => {
-    store.dispatch(addChannelState(channel));
+    dispatch(addChannelState(channel));
   });
 
   return (

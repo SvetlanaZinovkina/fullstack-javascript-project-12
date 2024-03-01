@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,20 +16,18 @@ import {
 import arrow from '../images/arrow.png';
 import { messagesSchema } from './validationSchemas';
 import { setUserToken } from '../slices/loginSlice';
+import { useSocket } from '../context/socket';
 
-const MessagesBox = ({ socket }) => {
+const MessagesBox = () => {
   const { t } = useTranslation();
-  const {
-    data, refetch,
-  } = useGetMessagesQuery();
+  const { data } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
   const dispatch = useDispatch();
   const messages = useSelector((state) => state.messages.messages);
-  dispatch(setMessages(data));
-
-  // useEffect(() => {
-  //     dispatch(setMessages(data));
-  //   }, []);
+  // const { socketApi } = useSocket();
+  useEffect(() => {
+    dispatch(setMessages(data));
+  }, []);
   const countMessages = messages ? messages.length : 0;
   const usernameLocalstorage = localStorage.getItem('username');
   const channels = useSelector((state) => state.channels.channels);
@@ -37,20 +35,20 @@ const MessagesBox = ({ socket }) => {
   const activeChannel = channels.find((channel) => parseInt(channel.id) === activeChannelId);
   const onSubmit = async (messageValue, { resetForm }) => {
     try {
+      console.log(messageValue);
       const { message } = messageValue;
       const newMessage = {
         body: message,
         channelId: activeChannelId,
         username: usernameLocalstorage,
       };
+      // socketApi.addMessage(newMessage);
       await addMessage(newMessage);
       resetForm();
     } catch (error) {
       console.error('Error add message:', error);
     }
   };
-
-  socket.on('newMessage', (payload) => dispatch(addMessageState(payload)));
 
   return (
     <div className="col p-0 h-100">
