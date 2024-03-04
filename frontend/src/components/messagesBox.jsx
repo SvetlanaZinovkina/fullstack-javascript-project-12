@@ -1,5 +1,4 @@
-import React, { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
@@ -16,33 +15,27 @@ import {
 import arrow from '../images/arrow.png';
 import { messagesSchema } from './validationSchemas';
 import { setUserToken } from '../slices/loginSlice';
-import { useSocket } from '../context/socket';
 
 const MessagesBox = () => {
   const { t } = useTranslation();
-  const { data } = useGetMessagesQuery();
   const [addMessage] = useAddMessageMutation();
   const dispatch = useDispatch();
+
   const messages = useSelector((state) => state.messages.messages);
-  // const { socketApi } = useSocket();
-  useEffect(() => {
-    dispatch(setMessages(data));
-  }, []);
   const countMessages = messages ? messages.length : 0;
   const usernameLocalstorage = localStorage.getItem('username');
   const channels = useSelector((state) => state.channels.channels);
   const activeChannelId = useSelector((state) => state.channels.activeChannel);
-  const activeChannel = channels.find((channel) => parseInt(channel.id) === activeChannelId);
+  const activeChannel = channels.find(({ id }) => id === activeChannelId);
+
   const onSubmit = async (messageValue, { resetForm }) => {
+    const { message } = messageValue;
+    const newMessage = {
+      body: message,
+      channelId: activeChannelId,
+      username: usernameLocalstorage,
+    };
     try {
-      console.log(messageValue);
-      const { message } = messageValue;
-      const newMessage = {
-        body: message,
-        channelId: activeChannelId,
-        username: usernameLocalstorage,
-      };
-      // socketApi.addMessage(newMessage);
       await addMessage(newMessage);
       resetForm();
     } catch (error) {
@@ -58,7 +51,7 @@ const MessagesBox = () => {
             <b>
               #
               {' '}
-              {activeChannel.name}
+              {activeChannel && activeChannel.name}
             </b>
           </p>
           <span className="text-muted">{t('chat.message', { count: countMessages })}</span>
