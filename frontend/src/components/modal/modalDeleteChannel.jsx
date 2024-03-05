@@ -17,6 +17,7 @@ const ModalDeleteChannel = ({ handleCloseModal }) => {
       console.error('Error delete channel:', error);
     }
   };
+
   return (
     <>
       <p className="lead">{t('modal.areSure')}</p>
