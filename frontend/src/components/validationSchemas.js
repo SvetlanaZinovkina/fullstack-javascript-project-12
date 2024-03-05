@@ -33,4 +33,7 @@ export const signupSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Минимум 6')
     .required('Обязательное поле'),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'Пароль не совпадает')
+    .required('Обязательное поле'),
 });

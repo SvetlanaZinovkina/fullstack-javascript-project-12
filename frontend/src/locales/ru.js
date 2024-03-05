@@ -38,4 +38,11 @@ export default {
     renameBtn: 'Переименовать',
     areSure: 'Уверены?',
   },
+  signup: {
+    text: 'Регистрация',
+    username: 'Имя пользователя',
+    password: 'Пароль',
+    confirmPassword: 'Подтвердите пароль',
+    signupBtn: 'Зарегистрироваться',
+  },
 };

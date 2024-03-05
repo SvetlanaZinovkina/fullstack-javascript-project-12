@@ -1,8 +1,5 @@
 @import '~bootstrap/dist/css/bootstrap.min.css';
 
-body {
-    background: #f8f9fa;
-}
 .invalid-tooltip{
     display:block;
 }

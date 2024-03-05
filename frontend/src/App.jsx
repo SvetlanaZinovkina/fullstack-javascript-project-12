@@ -7,6 +7,7 @@ import store from './services/store.js';
 import i18n from './i18n';
 import Login from './pages/login.jsx';
 import NotFound from './pages/notFound.jsx';
+import Signup from './pages/signup.jsx';
 import Chat from './pages/chat.jsx';
 import { ApiProvider, socket } from './ApiProvider.jsx';
 import { addChannelState, removeChannelState, renameChannelState } from './slices/channelsSlice.js';
@@ -36,6 +37,7 @@ const App = () => {
             <Route path="*" element={<NotFound />} />
             <Route path="/" element={<Chat />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
           </Routes>
         </Router>
       </ApiProvider>
