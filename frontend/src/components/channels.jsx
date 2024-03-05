@@ -23,7 +23,7 @@ const Channels = () => {
 
   const handleDelete = (channelID) => dispatch(openModal({ type: 'deleteChannel', channelID }));
 
-  const handleRename = () => dispatch(openModal({ type: 'renameChannel' }));
+  const handleRename = (channelID) => dispatch(openModal({ type: 'renameChannel', channelID }));
 
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column d-flex">
@@ -62,7 +62,7 @@ const Channels = () => {
 
                   <Dropdown.Menu style={{ position: 'absolute', inset: '0px auto auto 0px', transform: 'translate(-8px, 40px)' }}>
                     <Dropdown.Item onClick={() => handleDelete(id)}>{t('modal.deleteBtn')}</Dropdown.Item>
-                    <Dropdown.Item onClick={handleRename}>{t('modal.renameBtn')}</Dropdown.Item>
+                    <Dropdown.Item onClick={() => handleRename(id)}>{t('modal.renameBtn')}</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
 

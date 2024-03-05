@@ -17,10 +17,11 @@ export const messagesSchema = Yup.object().shape({
     .required('Обязательное поле'),
 });
 
-export const channelsSchema = Yup.object().shape({
+export const channelsSchema = (existingChannels) => Yup.object().shape({
   name: Yup.string()
     .min(3, 'Минимум 3 букв')
     .max(20, 'Максимум 20 букв')
+    .notOneOf(existingChannels, 'Уже существует')
     .required('Обязательное поле'),
 });
 

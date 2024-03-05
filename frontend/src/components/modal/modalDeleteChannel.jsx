@@ -1,23 +1,21 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { Formik, Form, Field } from 'formik';
-import cn from 'classnames';
+import { useSelector } from 'react-redux';
 import { useRemoveChannelMutation } from '../../services/api.js';
-import { channelsSchema } from '../validationSchemas.js';
-import { removeChannelState } from '../../slices/channelsSlice.js';
 
 const ModalDeleteChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [removeChannel] = useRemoveChannelMutation();
 
   const channelIdToDelete = useSelector((state) => state.modal.channelID);
 
   const handleDeleteChannel = async () => {
-    await removeChannel(channelIdToDelete);
-    dispatch(removeChannelState(channelIdToDelete));
-    handleCloseModal();
+    try {
+      await removeChannel(channelIdToDelete);
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error delete channel:', error);
+    }
   };
   return (
     <>

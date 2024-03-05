@@ -3,27 +3,39 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
+import { useEditChannelMutation } from '../../services/api.js';
+
 import { channelsSchema } from '../validationSchemas.js';
 
-const ModalRenameChannel = ({ socket, handleCloseModal }) => {
+const ModalRenameChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
+  const [editChannel] = useEditChannelMutation();
+
   const channels = useSelector((state) => state.channels.channels);
+  const validationSchema = channelsSchema(channels);
 
-  const handleRenameChannels = async (nameChannel) => {
+  const channelIdToRename = useSelector((state) => state.modal.channelID);
 
+  const handleRenameChannels = async (newChannelName) => {
+    try {
+      await editChannel({ id: channelIdToRename, editedChannel: newChannelName });
+      handleCloseModal();
+    } catch (error) {
+      console.error('Error rename channel:', error);
+    }
   };
   return (
     <Formik
       initialValues={{
         name: '',
       }}
-      validationSchema={channelsSchema(channels)}
+      validationSchema={validationSchema}
       onSubmit={async (values) => handleRenameChannels(values)}
     >
       {({ errors, touched }) => (
         <Form className="">
           <div>
-            <Field name="name" id="name" className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })} value="" />
+            <Field name="name" id="name" className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })} />
             <label
               className="visually-hidden"
               htmlFor="name"

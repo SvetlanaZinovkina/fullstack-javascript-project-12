@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
 import { channelsSchema } from '../validationSchemas.js';
@@ -11,8 +11,10 @@ import { addMessageState } from '../../slices/messagesSlice';
 
 const ModalAddChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const [addChannel] = useAddChannelMutation();
+
+  const channels = useSelector((state) => state.channels.channels);
+  const validationSchema = channelsSchema(channels);
 
   const handleAddChannel = async (dataChannel) => {
     const { name } = dataChannel;
@@ -20,9 +22,7 @@ const ModalAddChannel = ({ handleCloseModal }) => {
       name,
     };
     try {
-      const { data } = await addChannel(newChannel);
-      const { id } = data;
-      dispatch(setActiveChannel(id));
+      await addChannel(newChannel);
       handleCloseModal();
     } catch (error) {
       console.error('Error add channel:', error);
@@ -34,7 +34,7 @@ const ModalAddChannel = ({ handleCloseModal }) => {
       initialValues={{
         name: '',
       }}
-      validationSchema={channelsSchema}
+      validationSchema={validationSchema}
       onSubmit={async (values) => handleAddChannel(values)}
     >
       {({ errors, touched }) => (

@@ -9,7 +9,7 @@ import Login from './pages/login.jsx';
 import NotFound from './pages/notFound.jsx';
 import Chat from './pages/chat.jsx';
 import { ApiProvider, socket } from './ApiProvider.jsx';
-import { addChannelState } from './slices/channelsSlice.js';
+import { addChannelState, removeChannelState, renameChannelState } from './slices/channelsSlice.js';
 import { addMessageState } from './slices/messagesSlice.js';
 
 const App = () => {
@@ -19,6 +19,13 @@ const App = () => {
   });
   socket.on('newChannel', (channel) => {
     dispatch(addChannelState(channel));
+  });
+  socket.on('removeChannel', (channel) => {
+    dispatch(removeChannelState(channel));
+  });
+  socket.on('renameChannel', (payload) => {
+    dispatch(renameChannelState(payload));
+    console.log(payload); // { id: 7, name: "new name channel", removable: true }
   });
 
   return (
