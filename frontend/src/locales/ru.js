@@ -11,6 +11,7 @@ export default {
   },
   navBar: {
     text: 'Hexlet chat',
+    exitBtn: 'Выход',
   },
   chat: {
     channelText: 'Каналы',
@@ -27,6 +28,7 @@ export default {
   },
   warnings: {
     errLogin: 'Неверные имя пользователя или пароль',
+    errSignup: 'Такой пользователь уже существует',
   },
   modal: {
     addChannel: 'Добавить канал',

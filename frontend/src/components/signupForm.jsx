@@ -19,10 +19,9 @@ const SignupForm = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const [createUser, { isError }] = useCreateUserMutation();
-  const classInputs = cn({ 'form-control': true, 'is-invalid': isError });
+  const [createUser] = useCreateUserMutation();
 
-  const onSubmit = async ({ username, password }) => {
+  const onSubmit = async ({ username, password }, formik) => {
     try {
       const response = await createUser({ username, password });
       // const { token, username } = response.data;
@@ -31,7 +30,12 @@ const SignupForm = () => {
       dispatch(setUserToken(response.data));
       navigate('/');
     } catch (error) {
-      console.error('Error login:', error);
+      if (error.response && error.response.status === 409) {
+        formik.setErrors({
+          username: t('warnings.errSignup'),
+        });
+        formik.setTouched({ username: true });
+      }
     }
   };
   return (
@@ -57,46 +61,53 @@ const SignupForm = () => {
                     confirmPassword: '',
                   }}
                   validationSchema={signupSchema}
-                  onSubmit={async (values) => onSubmit(values)}
+                  onSubmit={async (values, formik) => onSubmit(values, formik)}
                 >
-                  <Form>
+                  {({ isSubmitting, errors, touched }) => (
+                    <Form>
 
-                    <div className="form-floating mb-3">
-                      <Field
-                        type="username"
-                        name="username"
-                        id="username"
-                        className={classInputs}
-                      />
-                      <label htmlFor="username" className="form-label">{t('signup.username')}</label>
-                      <ErrorMessage name="firstName" component="div" className="text-danger" />
-                    </div>
+                      <div className="form-floating mb-3">
+                        <Field
+                          type="username"
+                          name="username"
+                          id="username"
+                          className={cn({ 'form-control': true, 'is-invalid': errors.username && touched.username })}
+                        />
+                        <label htmlFor="username" className="form-label">{t('signup.username')}</label>
+                        <ErrorMessage name="username" component="div" className="text-danger" />
+                      </div>
 
-                    <div className="form-floating mb-3">
-                      <Field type="password" id="password" name="password" className={classInputs} />
-                      <label htmlFor="password" className="form-label">
-                        {t('signup.password')}
-                      </label>
-                      <ErrorMessage name="password" component="div" className="text-danger" />
-                    </div>
+                      <div className="form-floating mb-3">
+                        <Field
+                          type="password"
+                          id="password"
+                          name="password"
+                          className={cn({ 'form-control': true, 'is-invalid': errors.password && touched.password })}
+                        />
+                        <label htmlFor="password" className="form-label">
+                          {t('signup.password')}
+                        </label>
+                        <ErrorMessage name="password" component="div" className="text-danger" />
+                      </div>
 
-                    <div className="form-floating mb-3">
-                      <Field
-                        type="password"
-                        id="confirmPassword"
-                        name="confirmPassword"
-                        className={classInputs}
-                      />
-                      <label htmlFor="confirmPassword" className="form-label">
-                        {t('signup.confirmPassword')}
-                      </label>
-                      <ErrorMessage name="confirmPassword" component="div" className="text-danger" />
-                    </div>
+                      <div className="form-floating mb-3">
+                        <Field
+                          type="password"
+                          id="confirmPassword"
+                          name="confirmPassword"
+                          className={cn({ 'form-control': true, 'is-invalid': errors.confirmPassword && touched.confirmPassword })}
+                        />
+                        <label htmlFor="confirmPassword" className="form-label">
+                          {t('signup.confirmPassword')}
+                        </label>
+                        <ErrorMessage name="confirmPassword" component="div" className="text-danger" />
+                      </div>
 
-                    <Button type="submit" variant="primary" className="w-100">
-                      {t('signup.signupBtn')}
-                    </Button>
-                  </Form>
+                      <Button type="submit" variant="primary" className="w-100" disabled={isSubmitting}>
+                        {t('signup.signupBtn')}
+                      </Button>
+                    </Form>
+                  )}
                 </Formik>
               </div>
             </Col>
