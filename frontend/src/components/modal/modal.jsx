@@ -7,7 +7,7 @@ import ModalAddChannel from './modalAddChannel.jsx';
 import ModalDeleteChannel from './modalDeleteChannel.jsx';
 import ModalRenameChannel from './modalRenameChannel.jsx';
 
-const Modal = ({ socket }) => {
+const Modal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const type = useSelector((state) => state.modal.type);
@@ -17,13 +17,13 @@ const Modal = ({ socket }) => {
 
   switch (type) {
     case 'addChannel':
-      currentModal = <ModalAddChannel socket={socket} handleCloseModal={handleCloseModal} />;
+      currentModal = <ModalAddChannel handleCloseModal={handleCloseModal} />;
       break;
     case 'deleteChannel':
-      currentModal = <ModalDeleteChannel socket={socket} handleCloseModal={handleCloseModal} />;
+      currentModal = <ModalDeleteChannel handleCloseModal={handleCloseModal} />;
       break;
     case 'renameChannel':
-      currentModal = <ModalRenameChannel socket={socket} handleCloseModal={handleCloseModal} />;
+      currentModal = <ModalRenameChannel handleCloseModal={handleCloseModal} />;
       break;
     default:
       currentModal = null;

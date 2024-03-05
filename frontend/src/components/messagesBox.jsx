@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import {
@@ -13,20 +13,18 @@ import {
   useRemoveMessageMutation, useAddChannelMutation,
 } from '../services/api.js';
 import arrow from '../images/arrow.png';
-import { messagesSchema } from './validationSchemas';
-import { setUserToken } from '../slices/loginSlice';
+import { messagesSchema } from './validationSchemas.js';
 
 const MessagesBox = () => {
   const { t } = useTranslation();
   const [addMessage] = useAddMessageMutation();
-  const dispatch = useDispatch();
 
   const messages = useSelector((state) => state.messages.messages);
-  const countMessages = messages ? messages.length : 0;
   const usernameLocalstorage = localStorage.getItem('username');
   const channels = useSelector((state) => state.channels.channels);
   const activeChannelId = useSelector((state) => state.channels.activeChannel);
   const activeChannel = channels.find(({ id }) => id === activeChannelId);
+  const countMessages = messages ? messages.filter(({ channelId }) => channelId === activeChannelId).length : 0;
 
   const onSubmit = async (messageValue, { resetForm }) => {
     const { message } = messageValue;

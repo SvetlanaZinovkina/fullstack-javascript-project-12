@@ -3,15 +3,21 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Formik, Form, Field } from 'formik';
 import cn from 'classnames';
+import { useRemoveChannelMutation } from '../../services/api.js';
 import { channelsSchema } from '../validationSchemas.js';
+import { removeChannelState } from '../../slices/channelsSlice.js';
 
 const ModalDeleteChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const channels = useSelector((state) => state.channels.channels);
+  const [removeChannel] = useRemoveChannelMutation();
 
-  const handleDeleteChannel = () => {
+  const channelIdToDelete = useSelector((state) => state.modal.channelID);
 
+  const handleDeleteChannel = async () => {
+    await removeChannel(channelIdToDelete);
+    dispatch(removeChannelState(channelIdToDelete));
+    handleCloseModal();
   };
   return (
     <>

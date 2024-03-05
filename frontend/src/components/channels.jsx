@@ -21,7 +21,7 @@ const Channels = () => {
 
   const handleAddChannel = () => dispatch(openModal({ type: 'addChannel' }));
 
-  const handleDelete = () => dispatch(openModal({ type: 'deleteChannel' }));
+  const handleDelete = (channelID) => dispatch(openModal({ type: 'deleteChannel', channelID }));
 
   const handleRename = () => dispatch(openModal({ type: 'renameChannel' }));
 
@@ -48,25 +48,24 @@ const Channels = () => {
           return (
             <li className="nav-item w-100" key={id}>
               {removable ? (
-                <div role="group" className="d-flex dropdown btn-group">
-                  <Dropdown as={ButtonGroup}>
-                    <Button variant="outline" className={classChannel} onClick={() => handleChannelClick(id)}>
-                      {`# ${name}`}
-                    </Button>
-                    <Dropdown.Toggle
-                      variant="outline"
-                      id="channelDropdown"
-                      className={classChannelModal}
-                    >
-                      <span className="visually-hidden">Управление каналом</span>
-                    </Dropdown.Toggle>
+                <Dropdown as={ButtonGroup} className="d-flex dropdown btn-group">
+                  <Button variant="outline" className={classChannel} onClick={() => handleChannelClick(id)}>
+                    {`# ${name}`}
+                  </Button>
+                  <Dropdown.Toggle
+                    variant="outline"
+                    id="channelDropdown"
+                    className={classChannelModal}
+                  >
+                    <span className="visually-hidden">Управление каналом</span>
+                  </Dropdown.Toggle>
 
-                    <Dropdown.Menu style={{ position: 'absolute', inset: '0px auto auto 0px', transform: 'translate(-8px, 40px)' }}>
-                      <Dropdown.Item onClick={handleDelete}>{t('modal.deleteBtn')}</Dropdown.Item>
-                      <Dropdown.Item onClick={handleRename}>{t('modal.renameBtn')}</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
+                  <Dropdown.Menu style={{ position: 'absolute', inset: '0px auto auto 0px', transform: 'translate(-8px, 40px)' }}>
+                    <Dropdown.Item onClick={() => handleDelete(id)}>{t('modal.deleteBtn')}</Dropdown.Item>
+                    <Dropdown.Item onClick={handleRename}>{t('modal.renameBtn')}</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+
               ) : (
                 <button type="button" className={classChannel} onClick={() => handleChannelClick(id)}>
                   <span
