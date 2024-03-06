@@ -20,6 +20,9 @@ export default {
     message_many: '{{count}} сooбщений',
     enterMessage: 'Введите сообщение...',
     sendBtn: 'Отправить',
+    addChannel: 'Канал добавлен',
+    deleteChannel: 'Канал удален',
+    renameChannel: 'Канал переименован',
   },
   notFound: {
     notPage: 'Страница не найдена',
@@ -29,6 +32,7 @@ export default {
   warnings: {
     errLogin: 'Неверные имя пользователя или пароль',
     errSignup: 'Такой пользователь уже существует',
+    errNetwork: 'Что-то пошло не так, попробуйте снова',
   },
   modal: {
     addChannel: 'Добавить канал',

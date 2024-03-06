@@ -5,6 +5,8 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { channelsSchema } from '../validationSchemas.js';
 import { closeModal } from '../../slices/modalSlice.js';
 import { addChannelState, setActiveChannel } from '../../slices/channelsSlice.js';
@@ -14,6 +16,7 @@ import { addMessageState } from '../../slices/messagesSlice';
 const ModalAddChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [addChannel] = useAddChannelMutation();
+  const notify = (text) => toast(text);
 
   const channels = useSelector((state) => state.channels.channels);
   const channelNames = channels.map((channel) => channel.name);
@@ -27,8 +30,12 @@ const ModalAddChannel = ({ handleCloseModal }) => {
     try {
       await addChannel(newChannel);
       handleCloseModal();
+      notify(t('chat.addChannel'));
     } catch (error) {
       console.error('Error add channel:', error);
+      if (!error.isAxiosError) {
+        notify(t('warnings.errNetwork'));
+      }
     }
   };
 

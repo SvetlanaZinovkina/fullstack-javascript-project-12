@@ -4,6 +4,8 @@ import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import welcomeLogin from '../images/welcome_login.jpg';
 import { setUserToken } from '../slices/loginSlice.js';
 import { useLoginMutation } from '../services/api.js';
@@ -14,6 +16,8 @@ const LoginForm = () => {
   const [login, { isError }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const notify = (text) => toast(text);
+
   const classInputs = cn({ 'form-control': true, 'is-invalid': isError });
 
   const onSubmit = async (userData) => {
@@ -25,6 +29,10 @@ const LoginForm = () => {
       dispatch(setUserToken(response.data));
       navigate('/');
     } catch (error) {
+      if (!error.isAxiosError) {
+        notify(t('warnings.errNetwork'));
+        return;
+      }
       console.error('Error login:', error);
     }
   };

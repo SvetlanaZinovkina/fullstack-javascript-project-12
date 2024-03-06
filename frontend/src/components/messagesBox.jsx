@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from 'react-redux';
+// import {
+//   Container, Row, Col, InputGroup, FormControl, Button,
+// } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import cn from 'classnames';
 import {
   setMessages, addMessageState, editMessage, deleteMessage,
@@ -18,6 +23,7 @@ import { messagesSchema } from './validationSchemas.js';
 const MessagesBox = () => {
   const { t } = useTranslation();
   const [addMessage] = useAddMessageMutation();
+  const notify = (text) => toast(text);
 
   const messages = useSelector((state) => state.messages.messages);
   const usernameLocalstorage = localStorage.getItem('username');
@@ -37,6 +43,7 @@ const MessagesBox = () => {
       await addMessage(newMessage);
       resetForm();
     } catch (error) {
+      notify(t('warnings.errSignup'));
       console.error('Error add message:', error);
     }
   };
@@ -101,6 +108,7 @@ const MessagesBox = () => {
           </Formik>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

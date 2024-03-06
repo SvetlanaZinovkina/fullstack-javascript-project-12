@@ -6,6 +6,8 @@ import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import cn from 'classnames';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
@@ -18,23 +20,32 @@ const SignupForm = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const notify = (text) => toast(text);
 
   const [createUser] = useCreateUserMutation();
 
-  const onSubmit = async ({ username, password }, formik) => {
+  const onSubmit = async ({ username, password }, { setErrors }) => {
     try {
       const response = await createUser({ username, password });
-      // const { token, username } = response.data;
+      if ('error' in response) {
+        const error = new Error();
+        error.statusCode = response.error.status;
+        throw error;
+      }
       localStorage.setItem('token', response.data.token);
       localStorage.setItem('username', response.data.username);
       dispatch(setUserToken(response.data));
       navigate('/');
     } catch (error) {
-      if (error.response && error.response.status === 409) {
-        formik.setErrors({
+      if (!error.isAxiosError) {
+        notify(t('warnings.errNetwork'));
+        return;
+      }
+      if (error.statusCode === 409) {
+        notify(t('warnings.errSignup'));
+        setErrors({
           username: t('warnings.errSignup'),
         });
-        formik.setTouched({ username: true });
       }
     }
   };
@@ -61,7 +72,7 @@ const SignupForm = () => {
                     confirmPassword: '',
                   }}
                   validationSchema={signupSchema}
-                  onSubmit={async (values, formik) => onSubmit(values, formik)}
+                  onSubmit={async (values, { setErrors }) => onSubmit(values, { setErrors })}
                 >
                   {({ isSubmitting, errors, touched }) => (
                     <Form>
@@ -114,6 +125,7 @@ const SignupForm = () => {
           </Row>
         </Col>
       </Row>
+      <ToastContainer />
     </Container>
   );
 };

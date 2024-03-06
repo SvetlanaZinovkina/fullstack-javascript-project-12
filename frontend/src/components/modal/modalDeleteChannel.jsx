@@ -1,11 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useRemoveChannelMutation } from '../../services/api.js';
 
 const ModalDeleteChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [removeChannel] = useRemoveChannelMutation();
+  const notify = (text) => toast(text);
 
   const channelIdToDelete = useSelector((state) => state.modal.channelID);
 
@@ -13,8 +16,12 @@ const ModalDeleteChannel = ({ handleCloseModal }) => {
     try {
       await removeChannel(channelIdToDelete);
       handleCloseModal();
+      notify(t('chat.deleteChannel'));
     } catch (error) {
       console.error('Error delete channel:', error);
+      if (!error.isAxiosError) {
+        notify(t('warnings.errNetwork'));
+      }
     }
   };
 

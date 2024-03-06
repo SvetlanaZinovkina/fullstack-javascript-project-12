@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { ToastContainer } from 'react-toastify';
 import { setChannels } from '../slices/channelsSlice.js';
 import { setMessages } from '../slices/messagesSlice.js';
 import { setUserToken } from '../slices/loginSlice.js';
@@ -38,6 +39,7 @@ const ChatForm = () => {
         <Channels />
         <MessagesBox />
       </div>
+      <ToastContainer />
     </div>
   );
 };

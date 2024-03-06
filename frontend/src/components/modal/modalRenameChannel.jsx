@@ -5,12 +5,16 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import cn from 'classnames';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useEditChannelMutation } from '../../services/api.js';
 import { channelsSchema } from '../validationSchemas.js';
 
 const ModalRenameChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [editChannel] = useEditChannelMutation();
+  const notify = (text) => toast(text);
+
   const channels = useSelector((state) => state.channels.channels);
   const channelNames = channels.map((channel) => channel.name);
   const validationSchema = channelsSchema(channelNames);
@@ -21,8 +25,12 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
     try {
       await editChannel({ id: channelIdToRename, editedChannel: newChannelName });
       handleCloseModal();
+      notify(t('chat.renameChannel'));
     } catch (error) {
       console.error('Error rename channel:', error);
+      if (!error.isAxiosError) {
+        notify(t('warnings.errNetwork'));
+      }
     }
   };
   return (
