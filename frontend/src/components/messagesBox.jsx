@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import filter from 'leo-profanity';
 import cn from 'classnames';
 import {
   setMessages, addMessageState, editMessage, deleteMessage,
@@ -35,7 +36,7 @@ const MessagesBox = () => {
   const onSubmit = async (messageValue, { resetForm }) => {
     const { message } = messageValue;
     const newMessage = {
-      body: message,
+      body: filter.clean(message),
       channelId: activeChannelId,
       username: usernameLocalstorage,
     };
