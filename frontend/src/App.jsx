@@ -33,10 +33,14 @@ const App = () => {
     dispatch(renameChannelState(payload));
     console.log(payload); // { id: 7, name: "new name channel", removable: true }
   });
-
+  function TestError() {
+    const a = null;
+    return a.hello();
+  }
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
+        <TestError />
         <I18nextProvider i18n={i18n}>
           <ApiProvider>
             <Router>
