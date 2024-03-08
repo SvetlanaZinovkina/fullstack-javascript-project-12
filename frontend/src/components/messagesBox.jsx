@@ -1,22 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from 'react-redux';
-// import {
-//   Container, Row, Col, InputGroup, FormControl, Button,
-// } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import filter from 'leo-profanity';
-import cn from 'classnames';
 import {
-  setMessages, addMessageState, editMessage, deleteMessage,
-} from '../slices/messagesSlice.js';
-import {
-  useGetMessagesQuery,
   useAddMessageMutation,
-  useEditMessageMutation,
-  useRemoveMessageMutation, useAddChannelMutation,
 } from '../services/api.js';
 import arrow from '../images/arrow.png';
 import { messagesSchema } from './validationSchemas.js';
