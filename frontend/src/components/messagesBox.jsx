@@ -2,26 +2,32 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
+import * as Yup from 'yup';
 import filter from 'leo-profanity';
 import {
   useAddMessageMutation,
 } from '../services/api.js';
 import arrow from '../images/arrow.png';
-import { messagesSchema } from './validationSchemas.js';
+import notify from '../utils/toast.js';
 
 const MessagesBox = () => {
   const { t } = useTranslation();
   const [addMessage] = useAddMessageMutation();
-  const notify = (text) => toast(text);
+
+  const messagesSchema = Yup.object().shape({
+    message: Yup.string()
+      .min(1, t('warnSchema.messages'))
+      .required(t('warnSchema.required')),
+  });
 
   const messages = useSelector((state) => state.messages.messages);
   const usernameLocalstorage = localStorage.getItem('username');
   const channels = useSelector((state) => state.channels.channels);
   const activeChannelId = useSelector((state) => state.channels.activeChannel);
   const activeChannel = channels.find(({ id }) => id === activeChannelId);
-  const countMessages = messages ? messages.filter(({ channelId }) => channelId === activeChannelId).length : 0;
+  const activeMsg = messages && messages.filter(({ channelId }) => channelId === activeChannelId);
+  const countMessages = messages ? activeMsg.length : 0;
 
   const onSubmit = async (messageValue, { resetForm }) => {
     const { message } = messageValue;
@@ -63,7 +69,6 @@ const MessagesBox = () => {
                   <b>{username}</b>
                   {': '}
                   {body}
-                  <button type="submit" disabled="" className="btn" />
                 </div>
               );
             })

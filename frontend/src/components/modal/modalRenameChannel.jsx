@@ -5,15 +5,21 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import cn from 'classnames';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import * as Yup from 'yup';
 import { useEditChannelMutation } from '../../services/api.js';
-import { channelsSchema } from '../validationSchemas.js';
+import notify from '../../utils/toast.js';
 
 const ModalRenameChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [editChannel] = useEditChannelMutation();
-  const notify = (text) => toast(text);
+
+  const channelsSchema = (existingChannels) => Yup.object().shape({
+    name: Yup.string()
+      .min(3, t('warnSchema.channels'))
+      .max(20, t('warnSchema.channels'))
+      .notOneOf(existingChannels, t('warnSchema.existingChannels'))
+      .required(t('warnSchema.required')),
+  });
 
   const channels = useSelector((state) => state.channels.channels);
   const channelNames = channels.map((channel) => channel.name);

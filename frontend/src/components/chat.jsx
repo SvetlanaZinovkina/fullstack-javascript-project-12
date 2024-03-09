@@ -1,11 +1,9 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
 import { ToastContainer } from 'react-toastify';
 import { setChannels } from '../slices/channelsSlice.js';
 import { setMessages } from '../slices/messagesSlice.js';
-import { setUserToken } from '../slices/loginSlice.js';
 import {
   useGetChannelsQuery,
   useGetMessagesQuery,
@@ -14,20 +12,22 @@ import Channels from './channels.jsx';
 import MessagesBox from './messagesBox.jsx';
 
 const ChatForm = () => {
-  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const token = localStorage.getItem('token');
 
-  const channelsQuery = useGetChannelsQuery();
+  const { data, isSuccess } = useGetChannelsQuery();
   const messagesQuery = useGetMessagesQuery();
 
-  useEffect(() => {
-    if (channelsQuery.isSuccess && messagesQuery.isSuccess) {
-      dispatch(setChannels(channelsQuery.data));
-      dispatch(setMessages(messagesQuery.data));
-    }
-  }, [channelsQuery.isSuccess, messagesQuery.isSuccess, channelsQuery.data, messagesQuery.data, dispatch]);
+  useEffect(
+    () => {
+      if (isSuccess && messagesQuery.isSuccess) {
+        dispatch(setChannels(data));
+        dispatch(setMessages(messagesQuery.data));
+      }
+    },
+    [isSuccess, messagesQuery.isSuccess, data, messagesQuery.data, dispatch],
+  );
 
   if (!token) {
     return navigate('/login');

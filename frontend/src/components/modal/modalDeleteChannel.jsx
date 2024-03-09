@@ -1,14 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useRemoveChannelMutation } from '../../services/api.js';
+import notify from '../../utils/toast.js';
 
 const ModalDeleteChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [removeChannel] = useRemoveChannelMutation();
-  const notify = (text) => toast(text);
 
   const channelIdToDelete = useSelector((state) => state.modal.channelID);
 

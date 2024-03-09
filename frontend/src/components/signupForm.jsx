@@ -6,21 +6,33 @@ import {
   Formik, Field, Form, ErrorMessage,
 } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import cn from 'classnames';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
-import { signupSchema } from './validationSchemas.js';
+import * as Yup from 'yup';
 import signupBear from '../images/signupBear.svg';
 import { useCreateUserMutation } from '../services/api';
-import { setUserToken } from '../slices/loginSlice';
+import notify from '../utils/toast.js';
 
 const SignupForm = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const notify = (text) => toast(text);
+
+  const signupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(2, t('warnSchema.signUpNameMin'))
+      .max(20, t('warnSchema.signUpNameMax'))
+      .required(t('warnSchema.required')),
+    password: Yup.string()
+      .min(6, t('warnSchema.signUpNameMax'))
+      .required(t('warnSchema.required')),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], t('warnSchema.signUpConfirmPassword'))
+      .required(t('warnSchema.required')),
+  });
 
   const [createUser] = useCreateUserMutation();
 
@@ -37,15 +49,12 @@ const SignupForm = () => {
       dispatch(setUserToken(response.data));
       navigate('/');
     } catch (error) {
-      if (!error.isAxiosError) {
-        notify(t('warnings.errNetwork'));
-        return;
-      }
       if (error.statusCode === 409) {
         notify(t('warnings.errSignup'));
         setErrors({
           username: t('warnings.errSignup'),
         });
+        notify(t('warnings.errNetwork'));
       }
     }
   };

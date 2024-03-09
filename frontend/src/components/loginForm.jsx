@@ -1,22 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import * as Yup from 'yup';
 import welcomeLogin from '../images/welcome_login.jpg';
 import { setUserToken } from '../slices/loginSlice.js';
 import { useLoginMutation } from '../services/api.js';
-import { signinSchema } from './validationSchemas.js';
 
 const LoginForm = () => {
   const { t } = useTranslation();
   const [login, { isError }] = useLoginMutation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const notify = (text) => toast(text);
+
+  const signInSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(2, t('warnSchema.signInNameMin'))
+      .max(50, t('warnSchema.signInNameMax'))
+      .required(t('warnSchema.required')),
+    password: Yup.string()
+      .min(2, t('warnSchema.signInPasswordMin'))
+      .max(8, t('warnSchema.signInPasswordMax'))
+      .required(t('warnSchema.required')),
+  });
 
   const classInputs = cn({ 'form-control': true, 'is-invalid': isError });
 
@@ -29,10 +37,6 @@ const LoginForm = () => {
       dispatch(setUserToken(response.data));
       navigate('/');
     } catch (error) {
-      if (!error.isAxiosError) {
-        notify(t('warnings.errNetwork'));
-        return;
-      }
       console.error('Error login:', error);
     }
   };
@@ -53,7 +57,7 @@ const LoginForm = () => {
                     username: '',
                     password: '',
                   }}
-                  validationSchema={signinSchema}
+                  validationSchema={signInSchema}
                   onSubmit={async (values) => onSubmit(values)}
                 >
                   {() => (

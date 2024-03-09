@@ -1,7 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import cn from 'classnames';
 import { closeModal } from '../../slices/modalSlice.js';
 import ModalAddChannel from './modalAddChannel.jsx';
 import ModalDeleteChannel from './modalDeleteChannel.jsx';

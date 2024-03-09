@@ -51,4 +51,18 @@ export default {
     confirmPassword: 'Подтвердите пароль',
     signupBtn: 'Зарегистрироваться',
   },
+  warnSchema: {
+    signInNameMin: 'Минимум 2 буквы',
+    signInNameMax: 'Максимум 50 букв',
+    signInPasswordMin: 'Минимум 2 буквы',
+    signInPasswordMax: 'Максимум 8 букв',
+    messages: 'Минимум 1 буква',
+    channels: 'От 3 до 20 символов',
+    existingChannels: 'Уже существует',
+    signUpNameMin: 'Минимум 2 буквы',
+    signUpNameMax: 'Максимум 20 букв',
+    signUpPassword: 'Не менее 6 символов',
+    signUpConfirmPassword: 'Пароли должны совпадать',
+    required: 'Обязательное поле',
+  },
 };

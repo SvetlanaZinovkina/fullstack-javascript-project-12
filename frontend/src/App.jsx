@@ -9,7 +9,7 @@ import Login from './pages/login.jsx';
 import NotFound from './pages/notFound.jsx';
 import Signup from './pages/signup.jsx';
 import Chat from './pages/chat.jsx';
-import { ApiProvider, socket } from './ApiProvider.jsx';
+import { socket } from './socket.js';
 import { addChannelState, removeChannelState, renameChannelState } from './slices/channelsSlice.js';
 import { addMessageState } from './slices/messagesSlice.js';
 
@@ -31,23 +31,20 @@ const App = () => {
   });
   socket.on('renameChannel', (payload) => {
     dispatch(renameChannelState(payload));
-    console.log(payload); // { id: 7, name: "new name channel", removable: true }
   });
 
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <I18nextProvider i18n={i18n}>
-          <ApiProvider>
-            <Router>
-              <Routes>
-                <Route path="*" element={<NotFound />} />
-                <Route path="/" element={<Chat />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/signup" element={<Signup />} />
-              </Routes>
-            </Router>
-          </ApiProvider>
+          <Router>
+            <Routes>
+              <Route path="*" element={<NotFound />} />
+              <Route path="/" element={<Chat />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+            </Routes>
+          </Router>
         </I18nextProvider>
       </ErrorBoundary>
     </RollbarProvider>

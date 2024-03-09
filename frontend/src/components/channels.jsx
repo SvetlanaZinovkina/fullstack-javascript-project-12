@@ -1,13 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { setActiveChannel } from '../slices/channelsSlice.js';
 import { openModal } from '../slices/modalSlice.js';
-import {
-  useAddChannelMutation,
-} from '../services/api.js';
 import plus from '../images/plus.png';
 
 const Channels = () => {
