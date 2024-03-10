@@ -14,8 +14,8 @@ import { addChannelState, removeChannelState, renameChannelState } from './slice
 import { addMessageState } from './slices/messagesSlice.js';
 
 const rollbarConfig = {
-  accessToken: 'd477a3234cac4fc695a0837ed7cb14a4',
-  environment: 'testenv',
+  accessToken: 'aa5f4f3bcd594528b900e03e972a0697',
+  environment: 'production',
 };
 
 function TestError() {
