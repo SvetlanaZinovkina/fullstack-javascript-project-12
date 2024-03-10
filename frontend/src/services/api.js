@@ -69,12 +69,6 @@ const api = createApi({
         body: editedMessage,
       }),
     }),
-    removeMessage: builder.mutation({
-      query: (id) => ({
-        url: `/messages/${id}`,
-        method: 'DELETE',
-      }),
-    }),
   }),
 });
 
@@ -88,6 +82,5 @@ export const {
   useGetMessagesQuery,
   useAddMessageMutation,
   useEditMessageMutation,
-  useRemoveMessageMutation,
 } = api;
 export default api;

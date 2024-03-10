@@ -18,11 +18,6 @@ const rollbarConfig = {
   environment: 'production',
 };
 
-function TestError() {
-  const a = null;
-  return a.hello();
-}
-
 const App = () => {
   const dispatch = useDispatch();
   socket.on('newMessage', (message) => {
