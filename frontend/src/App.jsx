@@ -14,9 +14,14 @@ import { addChannelState, removeChannelState, renameChannelState } from './slice
 import { addMessageState } from './slices/messagesSlice.js';
 
 const rollbarConfig = {
-  accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
-  environment: 'production',
+  accessToken: 'd477a3234cac4fc695a0837ed7cb14a4',
+  environment: 'testenv',
 };
+
+function TestError() {
+  const a = null;
+  return a.hello();
+}
 
 const App = () => {
   const dispatch = useDispatch();
@@ -36,6 +41,7 @@ const App = () => {
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
+        <TestError />
         <I18nextProvider i18n={i18n}>
           <Router>
             <Routes>
