@@ -41,7 +41,6 @@ const App = () => {
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
-        <TestError />
         <I18nextProvider i18n={i18n}>
           <Router>
             <Routes>
