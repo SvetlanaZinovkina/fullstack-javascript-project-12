@@ -10,6 +10,7 @@ const Modal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const type = useSelector((state) => state.modal.type);
+  // eslint-disable-next-line functional/no-let
   let currentModal;
 
   const handleCloseModal = () => dispatch(closeModal());
