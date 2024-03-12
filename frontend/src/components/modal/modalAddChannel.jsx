@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import {
@@ -12,18 +12,19 @@ import notify from '../../utils/toast.js';
 const ModalAddChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [addChannel] = useAddChannelMutation();
+  const channels = useSelector((state) => state.channels.channels);
+  const channelNames = channels.map((channel) => channel.name);
+  const inputRef = useRef(null);
 
-  const channelsSchema = (existingChannels) => Yup.object().shape({
+  useEffect(() => inputRef.current.focus(), []);
+
+  const channelsSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, t('warnSchema.channels'))
       .max(20, t('warnSchema.channels'))
-      .notOneOf(existingChannels, t('warnSchema.existingChannels'))
+      .notOneOf(channelNames, t('warnSchema.existingChannels'))
       .required(t('warnSchema.required')),
   });
-
-  const channels = useSelector((state) => state.channels.channels);
-  const channelNames = channels.map((channel) => channel.name);
-  const validationSchema = channelsSchema(channelNames);
 
   const handleAddChannel = async (dataChannel) => {
     const { name } = dataChannel;
@@ -42,10 +43,8 @@ const ModalAddChannel = ({ handleCloseModal }) => {
 
   return (
     <Formik
-      initialValues={{
-        name: '',
-      }}
-      validationSchema={validationSchema}
+      initialValues={{ name: '' }}
+      validationSchema={channelsSchema}
       onSubmit={async (values) => handleAddChannel(values)}
     >
       {({ errors, touched }) => (
@@ -53,12 +52,13 @@ const ModalAddChannel = ({ handleCloseModal }) => {
           <div>
             <Field
               name="name"
-              id="name"
+              id="nameChannel"
+              ref={inputRef}
               className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
             />
             <label
               className="visually-hidden"
-              htmlFor="name"
+              htmlFor="nameChannel"
             >
               Имя канала
             </label>
