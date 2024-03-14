@@ -15,6 +15,7 @@ import * as Yup from 'yup';
 import signupBear from '../images/signupBear.svg';
 import { useCreateUserMutation } from '../services/api';
 import notify from '../utils/toast.js';
+import { setUserToken } from '../slices/loginSlice.js';
 
 const SignupForm = () => {
   const { t } = useTranslation();

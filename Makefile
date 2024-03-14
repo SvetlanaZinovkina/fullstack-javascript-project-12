@@ -4,19 +4,14 @@ lint-frontend:
 install:
 	npm ci
 
-#build:
-#	make -C frontend start
-#
-#start:
-#	npx start-server
+start-frontend:
+	make -C frontend start
 
-deploy:
-	git push heroku main
+start-backend:
+	npx start-server
 
-#start:
-#	make start-backend & make start-frontend
 start:
-	 npx start-server -s ./frontend/build
+	make start-backend & make start-frontend
 
 build:
 	npm install --ignore-scripts && npm --prefix ./frontend install && npm run build --prefix frontend
