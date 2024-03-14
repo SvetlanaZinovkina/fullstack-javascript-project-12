@@ -28,7 +28,7 @@ const SignupForm = () => {
       .max(20, t('warnSchema.signUpName'))
       .required(t('warnSchema.required')),
     password: Yup.string()
-      .min(6, t('warnSchema.signUpNameMax'))
+      .min(6, t('warnSchema.signUpPassword'))
       .required(t('warnSchema.required')),
     confirmPassword: Yup.string()
       .oneOf([Yup.ref('password'), null], t('warnSchema.signUpConfirmPassword'))
