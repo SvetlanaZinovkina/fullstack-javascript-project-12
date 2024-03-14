@@ -39,7 +39,7 @@ const Channels = () => {
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map((chanel) => {
           const { id, name, removable } = chanel;
-          const classChannel = cn('w-100', 'rounded-30', 'text-start', 'btn', { 'btn-warning': activeChannel === id, 'text-truncate': removable });
+          const classChannel = cn('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': activeChannel === id, 'text-truncate': removable });
           const classChannelModal = cn('flex-grow-0', 'dropdown-toggle', 'dropdown-toggle-split', 'btn', { 'btn-warning': activeChannel === id });
 
           return (
