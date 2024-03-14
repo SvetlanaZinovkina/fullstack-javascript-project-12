@@ -40,7 +40,7 @@ const Channels = () => {
         {channels.map((chanel) => {
           const { id, name, removable } = chanel;
           const classChannel = cn('w-100', 'rounded-0', 'text-start', 'btn', { 'btn-secondary': activeChannel === id, 'text-truncate': removable });
-          const classChannelModal = cn('flex-grow-0', 'dropdown-toggle', 'dropdown-toggle-split', 'btn', { 'btn-warning': activeChannel === id });
+          const classChannelModal = cn('flex-grow-0', 'dropdown-toggle', 'dropdown-toggle-split', 'btn', { 'btn-secondary': activeChannel === id });
 
           return (
             <li className="nav-item w-100" key={id}>
