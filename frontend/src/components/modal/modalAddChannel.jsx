@@ -5,6 +5,7 @@ import {
   Formik, Form, Field, ErrorMessage,
 } from 'formik';
 import * as Yup from 'yup';
+import filter from 'leo-profanity';
 import cn from 'classnames';
 import { useAddChannelMutation } from '../../services/api.js';
 import notify from '../../utils/toast.js';
@@ -29,7 +30,7 @@ const ModalAddChannel = ({ handleCloseModal }) => {
   const handleAddChannel = async (dataChannel) => {
     const { name } = dataChannel;
     const newChannel = {
-      name,
+      name: filter.clean(name),
     };
     try {
       await addChannel(newChannel);
