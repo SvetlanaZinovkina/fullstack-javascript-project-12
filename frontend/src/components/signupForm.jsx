@@ -24,8 +24,8 @@ const SignupForm = () => {
 
   const signupSchema = Yup.object().shape({
     username: Yup.string()
-      .min(2, t('warnSchema.signUpNameMin'))
-      .max(20, t('warnSchema.signUpNameMax'))
+      .min(3, t('warnSchema.signUpName'))
+      .max(20, t('warnSchema.signUpName'))
       .required(t('warnSchema.required')),
     password: Yup.string()
       .min(6, t('warnSchema.signUpNameMax'))
