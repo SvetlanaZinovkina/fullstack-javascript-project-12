@@ -20,8 +20,8 @@ export default {
     message_many: '{{count}} сooбщений',
     enterMessage: 'Введите сообщение...',
     sendBtn: 'Отправить',
-    addChannel: 'Канал добавлен',
-    deleteChannel: 'Канал удален',
+    addChannel: 'Канал создан',
+    deleteChannel: 'Канал удалён',
     renameChannel: 'Канал переименован',
   },
   notFound: {
