@@ -15,7 +15,7 @@ const ModalAddChannel = ({ handleCloseModal }) => {
   const [addChannel] = useAddChannelMutation();
   const channels = useSelector((state) => state.channels.channels);
   const channelNames = channels.map((channel) => channel.name);
-  const inputRef = useRef(null);
+  const inputRef = useRef();
 
   useEffect(() => inputRef.current.focus(), []);
 
@@ -54,7 +54,7 @@ const ModalAddChannel = ({ handleCloseModal }) => {
             <Field
               name="name"
               id="nameChannel"
-              ref={inputRef}
+              innerRef={inputRef}
               className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
             />
             <label
