@@ -40,7 +40,7 @@ const MessagesBox = () => {
       await addMessage(newMessage);
       resetForm();
     } catch (error) {
-      notify(t('warnings.errSignup'));
+      notify(t('warnings.errNetwork'));
       console.error('Error add message:', error);
     }
   };

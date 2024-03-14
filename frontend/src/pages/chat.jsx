@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-
+import { ToastContainer } from 'react-toastify';
 import Navigation from '../components/navigation.jsx';
 import ChatForm from '../components/chat.jsx';
 import Modal from '../components/modal/modal.jsx';
@@ -14,6 +14,7 @@ const Chat = () => {
         <ChatForm />
         {isModal && <Modal />}
       </div>
+      <ToastContainer />
     </div>
   );
 };
