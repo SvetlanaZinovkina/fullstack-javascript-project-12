@@ -2,7 +2,6 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { ToastContainer } from 'react-toastify';
 import * as Yup from 'yup';
 import filter from 'leo-profanity';
 import {
@@ -104,7 +103,6 @@ const MessagesBox = () => {
           </Formik>
         </div>
       </div>
-      <ToastContainer />
     </div>
   );
 };
