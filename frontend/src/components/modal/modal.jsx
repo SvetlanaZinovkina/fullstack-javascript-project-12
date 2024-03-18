@@ -10,7 +10,6 @@ const Modal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const type = useSelector((state) => state.modal.type);
-  // eslint-disable-next-line functional/no-let
   let currentModal;
 
   const handleCloseModal = () => dispatch(closeModal());
@@ -32,7 +31,13 @@ const Modal = () => {
   return (
     <>
       <div className="fade modal-backdrop show" />
-      <div role="dialog" aria-modal="true" className="fade modal show" tabIndex="-1" style={{ display: 'block' }}>
+      <div
+        role="dialog"
+        aria-modal="true"
+        className="fade modal show"
+        tabIndex="-1"
+        style={{ display: 'block' }}
+      >
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header">

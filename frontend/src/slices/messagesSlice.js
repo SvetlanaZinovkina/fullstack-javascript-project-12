@@ -14,11 +14,13 @@ const messagesSlice = createSlice({
       state.messages.push(action.payload);
     },
     editMessage: (state, action) => {
-      const { messageId, newBody } = action.payload;
+      const {
+        messageId,
+        newBody,
+      } = action.payload;
       const messageToEdit = state.messages.find((message) => message.id === messageId);
 
       if (messageToEdit) {
-        // eslint-disable-next-line functional/no-expression-statements
         messageToEdit.body = newBody;
       }
     },
@@ -36,7 +38,10 @@ const messagesSlice = createSlice({
 });
 
 export const {
-  setMessages, addMessageState, editMessage, deleteMessage,
+  setMessages,
+  addMessageState,
+  editMessage,
+  deleteMessage,
 } = messagesSlice.actions;
 
 export default messagesSlice.reducer;

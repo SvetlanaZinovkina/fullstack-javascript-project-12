@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { ErrorMessage, Field, Form, Formik, } from 'formik';
+import {
+  ErrorMessage, Field, Form, Formik,
+} from 'formik';
 import * as Yup from 'yup';
 import filter from 'leo-profanity';
-import { setActiveChannel } from '../../slices/channelsSlice.js';
 import cn from 'classnames';
+import { setActiveChannel } from '../../slices/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/api.js';
 import notify from '../../utils/toast.js';
 
@@ -53,7 +55,7 @@ const ModalAddChannel = ({ handleCloseModal }) => {
     >
       {({
         errors,
-        touched
+        touched,
       }) => (
         <Form className="">
           <div>
@@ -69,10 +71,15 @@ const ModalAddChannel = ({ handleCloseModal }) => {
             >
               Имя канала
             </label>
-            <ErrorMessage name="name" component="div" className="invalid-feedback"/>
+            <ErrorMessage name="name" component="div" className="invalid-feedback" />
             <div className="d-flex justify-content-end">
-              <button type="button" className="me-2 btn btn-secondary"
-                      onClick={handleCloseModal}>{t('modal.cancelBtn')}</button>
+              <button
+                type="button"
+                className="me-2 btn btn-secondary"
+                onClick={handleCloseModal}
+              >
+                {t('modal.cancelBtn')}
+              </button>
               <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
             </div>
           </div>

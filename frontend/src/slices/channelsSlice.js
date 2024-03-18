@@ -25,11 +25,11 @@ const channelsSlice = createSlice({
     renameChannelState: (state, action) => {
       const {
         id,
-        name
+        name,
       } = action.payload;
       state.channels = state.channels.map((channel) => (channel.id === id ? {
         ...channel,
-        name
+        name,
       } : channel));
     },
   },

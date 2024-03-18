@@ -16,7 +16,6 @@ const options = {
   },
 };
 const i18n = i18next.createInstance();
-// eslint-disable-next-line functional/no-expression-statements
 i18n
   .use(initReactI18next)
   .init(options);
