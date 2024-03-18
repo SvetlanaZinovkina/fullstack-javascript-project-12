@@ -17,9 +17,7 @@ const ModalDeleteChannel = ({ handleCloseModal }) => {
       notify(t('chat.deleteChannel'));
     } catch (error) {
       console.error('Error delete channel:', error);
-      if (!error.isAxiosError) {
-        notify(t('warnings.errNetwork'));
-      }
+      notify(t('warnings.errNetwork'));
     }
   };
 
@@ -27,8 +25,20 @@ const ModalDeleteChannel = ({ handleCloseModal }) => {
     <>
       <p className="lead">{t('modal.areSure')}</p>
       <div className="d-flex justify-content-end">
-        <button type="button" className="me-2 btn btn-secondary" onClick={handleCloseModal}>{t('modal.cancelBtn')}</button>
-        <button type="button" className="btn btn-danger" onClick={handleDeleteChannel}>{t('modal.deleteBtn')}</button>
+        <button
+          type="button"
+          className="me-2 btn btn-secondary"
+          onClick={handleCloseModal}
+        >
+          {t('modal.cancelBtn')}
+        </button>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={handleDeleteChannel}
+        >
+          {t('modal.deleteBtn')}
+        </button>
       </div>
     </>
 

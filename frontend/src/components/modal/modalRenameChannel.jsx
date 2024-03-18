@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import {
-  Formik, Form, Field, ErrorMessage,
+  ErrorMessage, Field, Form, Formik,
 } from 'formik';
 import cn from 'classnames';
 import * as Yup from 'yup';
@@ -12,14 +12,18 @@ import notify from '../../utils/toast.js';
 const ModalRenameChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [editChannel] = useEditChannelMutation();
+  const inputRef = useRef();
 
-  const channelsSchema = (existingChannels) => Yup.object().shape({
-    name: Yup.string()
-      .min(3, t('warnSchema.channels'))
-      .max(20, t('warnSchema.channels'))
-      .notOneOf(existingChannels, t('warnSchema.existingChannels'))
-      .required(t('warnSchema.required')),
-  });
+  useEffect(() => inputRef.current.focus(), []);
+
+  const channelsSchema = (existingChannels) => Yup.object()
+    .shape({
+      name: Yup.string()
+        .min(3, t('warnSchema.channels'))
+        .max(20, t('warnSchema.channels'))
+        .notOneOf(existingChannels, t('warnSchema.existingChannels'))
+        .required(t('warnSchema.required')),
+    });
 
   const channels = useSelector((state) => state.channels.channels);
   const channelNames = channels.map((channel) => channel.name);
@@ -29,14 +33,15 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
 
   const handleRenameChannels = async (newChannelName) => {
     try {
-      await editChannel({ id: channelIdToRename, editedChannel: newChannelName });
+      await editChannel({
+        id: channelIdToRename,
+        editedChannel: newChannelName,
+      });
       handleCloseModal();
       notify(t('chat.renameChannel'));
     } catch (error) {
       console.error('Error rename channel:', error);
-      if (!error.isAxiosError) {
-        notify(t('warnings.errNetwork'));
-      }
+      notify(t('warnings.errNetwork'));
     }
   };
   return (
@@ -47,10 +52,18 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
       validationSchema={validationSchema}
       onSubmit={async (values) => handleRenameChannels(values)}
     >
-      {({ errors, touched }) => (
+      {({
+        errors,
+        touched,
+      }) => (
         <Form className="">
           <div>
-            <Field name="name" id="name" className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })} />
+            <Field
+              name="name"
+              innerRef={inputRef}
+              id="name"
+              className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
+            />
             <label
               className="visually-hidden"
               htmlFor="name"
@@ -59,7 +72,13 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
             </label>
             <ErrorMessage name="name" component="div" className="invalid-feedback" />
             <div className="d-flex justify-content-end">
-              <button type="button" className="me-2 btn btn-secondary" onClick={handleCloseModal}>{t('modal.cancelBtn')}</button>
+              <button
+                type="button"
+                className="me-2 btn btn-secondary"
+                onClick={handleCloseModal}
+              >
+                {t('modal.cancelBtn')}
+              </button>
               <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
             </div>
           </div>
