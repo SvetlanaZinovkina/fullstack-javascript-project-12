@@ -1,8 +1,8 @@
 import './App.css';
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
-import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
+import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react';
 import { useDispatch } from 'react-redux';
 import i18n from './i18n';
 import Login from './pages/login.jsx';
@@ -20,18 +20,11 @@ const rollbarConfig = {
 
 const App = () => {
   const dispatch = useDispatch();
-  socket.on('newMessage', (message) => {
-    dispatch(addMessageState(message));
-  });
-  socket.on('newChannel', (channel) => {
-    dispatch(addChannelState(channel));
-  });
-  socket.on('removeChannel', (channel) => {
-    dispatch(removeChannelState(channel));
-  });
-  socket.on('renameChannel', (payload) => {
-    dispatch(renameChannelState(payload));
-  });
+
+  socket.on('newMessage', (message) => dispatch(addMessageState(message)));
+  socket.on('newChannel', (channel) => dispatch(addChannelState(channel)));
+  socket.on('removeChannel', (channel) => dispatch(removeChannelState(channel)));
+  socket.on('renameChannel', (payload) => dispatch(renameChannelState(payload)));
 
   return (
     <RollbarProvider config={rollbarConfig}>

@@ -14,7 +14,8 @@ const Navigation = () => {
     <nav className="shadow-sm navbar navbar-expand-lg navbar-light bg-warning bg-opacity-25">
       <div className="container">
         <a className="navbar-brand" href="/">{t('navBar.text')}</a>
-        {token && <button className="btn btn-danger" type="submit" onClick={resetUser}>{t('navBar.exitBtn')}</button>}
+        {token && <button className="btn btn-primary" type="submit"
+                          onClick={resetUser}>{t('navBar.exitBtn')}</button>}
       </div>
 
     </nav>
