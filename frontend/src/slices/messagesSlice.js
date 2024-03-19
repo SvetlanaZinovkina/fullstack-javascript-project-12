@@ -8,6 +8,7 @@ const messagesSlice = createSlice({
   },
   reducers: {
     setMessages: (state, action) => {
+      // eslint-disable-next-line
       state.messages = action.payload;
     },
     addMessageState: (state, action) => {
@@ -26,12 +27,14 @@ const messagesSlice = createSlice({
     },
     deleteMessage: (state, action) => {
       const messageIdToRemove = action.payload.id;
+      // eslint-disable-next-line
       state.messages = state.messages.filter((message) => message.id !== messageIdToRemove);
     },
   },
   extraReducers: (builder) => {
     builder.addCase(removeChannelState, (state, action) => {
       const channelIdToRemove = action.payload.id;
+      // eslint-disable-next-line
       state.messages = state.messages.filter((message) => message.channelId !== channelIdToRemove);
     });
   },

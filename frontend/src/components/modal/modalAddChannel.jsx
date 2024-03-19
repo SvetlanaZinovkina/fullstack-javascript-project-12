@@ -58,30 +58,28 @@ const ModalAddChannel = ({ handleCloseModal }) => {
         touched,
       }) => (
         <Form className="">
-          <div>
-            <Field
-              name="name"
-              id="nameChannel"
-              innerRef={inputRef}
-              className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
-            />
-            <label
-              className="visually-hidden"
-              htmlFor="nameChannel"
+          <Field
+            name="name"
+            id="nameChannel"
+            innerRef={inputRef}
+            className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
+          />
+          <label
+            className="visually-hidden"
+            htmlFor="nameChannel"
+          >
+            Имя канала
+          </label>
+          <ErrorMessage name="name" component="div" className="invalid-feedback" />
+          <div className="d-flex justify-content-end">
+            <button
+              type="button"
+              className="me-2 btn btn-secondary"
+              onClick={handleCloseModal}
             >
-              Имя канала
-            </label>
-            <ErrorMessage name="name" component="div" className="invalid-feedback" />
-            <div className="d-flex justify-content-end">
-              <button
-                type="button"
-                className="me-2 btn btn-secondary"
-                onClick={handleCloseModal}
-              >
-                {t('modal.cancelBtn')}
-              </button>
-              <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
-            </div>
+              {t('modal.cancelBtn')}
+            </button>
+            <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
           </div>
         </Form>
       )}
