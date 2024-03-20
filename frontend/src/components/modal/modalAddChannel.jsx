@@ -57,19 +57,22 @@ const ModalAddChannel = ({ handleCloseModal }) => {
         errors,
         touched,
       }) => (
-        <Form className="">
-          <Field
-            name="name"
-            id="nameChannel"
-            innerRef={inputRef}
-            className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
-          />
-          <label
-            className="visually-hidden"
-            htmlFor="nameChannel"
-          >
-            Имя канала
-          </label>
+        <Form>
+          <div>
+            <Field
+              type="text"
+              name="name"
+              id="name"
+              innerRef={inputRef}
+              className={cn('mb-2', 'form-control', { 'is-invalid': errors.name && touched.name })}
+            />
+            <label
+              className="visually-hidden"
+              htmlFor="nameChannel"
+            >
+              {t('modal.labelText')}
+            </label>
+          </div>
           <ErrorMessage name="name" component="div" className="invalid-feedback" />
           <div className="d-flex justify-content-end">
             <button

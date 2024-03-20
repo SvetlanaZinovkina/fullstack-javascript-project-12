@@ -43,6 +43,7 @@ export default {
     deleteBtn: 'Удалить',
     renameBtn: 'Переименовать',
     areSure: 'Уверены?',
+    labelText: 'Имя канала',
   },
   signup: {
     text: 'Регистрация',

@@ -56,9 +56,10 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
         errors,
         touched,
       }) => (
-        <Form className="">
+        <Form>
           <div>
             <Field
+              type="text"
               name="name"
               innerRef={inputRef}
               id="name"
@@ -68,19 +69,19 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
               className="visually-hidden"
               htmlFor="name"
             >
-              Имя канала
+              {t('modal.labelText')}
             </label>
-            <ErrorMessage name="name" component="div" className="invalid-feedback" />
-            <div className="d-flex justify-content-end">
-              <button
-                type="button"
-                className="me-2 btn btn-secondary"
-                onClick={handleCloseModal}
-              >
-                {t('modal.cancelBtn')}
-              </button>
-              <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
-            </div>
+          </div>
+          <ErrorMessage name="name" component="div" className="invalid-feedback" />
+          <div className="d-flex justify-content-end">
+            <button
+              type="button"
+              className="me-2 btn btn-secondary"
+              onClick={handleCloseModal}
+            >
+              {t('modal.cancelBtn')}
+            </button>
+            <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
           </div>
         </Form>
       )}
