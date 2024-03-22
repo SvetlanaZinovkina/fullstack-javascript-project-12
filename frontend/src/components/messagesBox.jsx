@@ -1,24 +1,24 @@
-import React from 'react';
-import { Formik, Form, Field } from 'formik';
+import React, { useEffect, useRef } from 'react';
+import { Field, Form, Formik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
 import filter from 'leo-profanity';
-import {
-  useAddMessageMutation,
-} from '../services/api.js';
+import { useAddMessageMutation } from '../services/api.js';
 import arrow from '../images/arrow.png';
 import notify from '../utils/toast.js';
 
 const MessagesBox = () => {
   const { t } = useTranslation();
   const [addMessage] = useAddMessageMutation();
+  const messagesEndRef = useRef(null);
 
-  const messagesSchema = Yup.object().shape({
-    message: Yup.string()
-      .min(1, t('warnSchema.messages'))
-      .required(t('warnSchema.required')),
-  });
+  const messagesSchema = Yup.object()
+    .shape({
+      message: Yup.string()
+        .min(1, t('warnSchema.messages'))
+        .required(t('warnSchema.required')),
+    });
 
   const messages = useSelector((state) => state.messages.messages);
   const usernameLocalstorage = localStorage.getItem('username');
@@ -27,6 +27,10 @@ const MessagesBox = () => {
   const activeChannel = channels.find(({ id }) => id === activeChannelId);
   const activeMsg = messages && messages.filter(({ channelId }) => channelId === activeChannelId);
   const countMessages = messages ? activeMsg.length : 0;
+
+  useEffect(() => {
+    messagesEndRef.current?.lastChild?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
 
   const onSubmit = async (messageValue, { resetForm }) => {
     const { message } = messageValue;
@@ -57,11 +61,18 @@ const MessagesBox = () => {
           </p>
           <span className="text-muted">{t('chat.message', { count: countMessages })}</span>
         </div>
-        <div id="messages-box" className="chat-messages overflow-auto px-5 ">
+        <div
+          id="messages-box"
+          className="chat-messages overflow-auto px-5 "
+          ref={messagesEndRef}
+        >
           {countMessages > 0 ? (
             messages.map((message) => {
               const {
-                body, username, id, channelId,
+                body,
+                username,
+                id,
+                channelId,
               } = message;
               return channelId === activeChannelId && (
                 <div key={id} className="text-break mb-2">

@@ -72,17 +72,17 @@ const ModalAddChannel = ({ handleCloseModal }) => {
             >
               {t('modal.labelText')}
             </label>
-          </div>
-          <ErrorMessage name="name" component="div" className="invalid-feedback" />
-          <div className="d-flex justify-content-end">
-            <button
-              type="button"
-              className="me-2 btn btn-secondary"
-              onClick={handleCloseModal}
-            >
-              {t('modal.cancelBtn')}
-            </button>
-            <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
+            <ErrorMessage name="name" component="div" className="invalid-feedback" />
+            <div className="d-flex justify-content-end">
+              <button
+                type="button"
+                className="me-2 btn btn-secondary"
+                onClick={handleCloseModal}
+              >
+                {t('modal.cancelBtn')}
+              </button>
+              <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
+            </div>
           </div>
         </Form>
       )}

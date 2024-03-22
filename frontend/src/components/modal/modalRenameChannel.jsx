@@ -30,7 +30,7 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
   const validationSchema = channelsSchema(channelNames);
 
   const channelIdToRename = useSelector((state) => state.modal.channelID);
-
+  const [channel] = channels.filter(({ id }) => id === channelIdToRename);
   const handleRenameChannels = async (newChannelName) => {
     try {
       await editChannel({
@@ -47,7 +47,7 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
   return (
     <Formik
       initialValues={{
-        name: '',
+        name: channel.name,
       }}
       validationSchema={validationSchema}
       onSubmit={async (values) => handleRenameChannels(values)}
@@ -71,17 +71,17 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
             >
               {t('modal.labelText')}
             </label>
-          </div>
-          <ErrorMessage name="name" component="div" className="invalid-feedback" />
-          <div className="d-flex justify-content-end">
-            <button
-              type="button"
-              className="me-2 btn btn-secondary"
-              onClick={handleCloseModal}
-            >
-              {t('modal.cancelBtn')}
-            </button>
-            <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
+            <ErrorMessage name="name" component="div" className="invalid-feedback" />
+            <div className="d-flex justify-content-end">
+              <button
+                type="button"
+                className="me-2 btn btn-secondary"
+                onClick={handleCloseModal}
+              >
+                {t('modal.cancelBtn')}
+              </button>
+              <button type="submit" className="btn btn-primary">{t('modal.sendBtn')}</button>
+            </div>
           </div>
         </Form>
       )}
