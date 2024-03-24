@@ -12,6 +12,7 @@ import Chat from './pages/chat.jsx';
 import { socket } from './socket.js';
 import { addChannelState, removeChannelState, renameChannelState } from './slices/channelsSlice.js';
 import { addMessageState } from './slices/messagesSlice.js';
+import routes from './routes/routes.js';
 
 const rollbarConfig = {
   accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
@@ -32,10 +33,10 @@ const App = () => {
         <I18nextProvider i18n={i18n}>
           <Router>
             <Routes>
-              <Route path="*" element={<NotFound />} />
-              <Route path="/" element={<Chat />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path={routes.notFound()} element={<NotFound />} />
+              <Route path={routes.chat()} element={<Chat />} />
+              <Route path={routes.login()} element={<Login />} />
+              <Route path={routes.signup()} element={<Signup />} />
             </Routes>
           </Router>
         </I18nextProvider>
