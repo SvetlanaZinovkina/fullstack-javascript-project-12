@@ -3,24 +3,27 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react';
-import { useDispatch } from 'react-redux';
-import i18n from './i18n';
+import { Provider, useDispatch } from 'react-redux';
+import i18n from './i18n.js';
+import io from 'socket.io-client';
 import Login from './pages/login.jsx';
 import NotFound from './pages/notFound.jsx';
 import Signup from './pages/signup.jsx';
 import Chat from './pages/chat.jsx';
-import { socket } from './socket.js';
 import { addChannelState, removeChannelState, renameChannelState } from './slices/channelsSlice.js';
 import { addMessageState } from './slices/messagesSlice.js';
 import routes from './routes/routes.js';
+import store from './services/store.js';
 
-const rollbarConfig = {
-  accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
-  environment: 'production',
-};
 
 const App = () => {
+  const socket = io();
   const dispatch = useDispatch();
+
+  const rollbarConfig = {
+    accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
+    environment: 'production',
+  };
 
   socket.on('newMessage', (message) => dispatch(addMessageState(message)));
   socket.on('newChannel', (channel) => dispatch(addChannelState(channel)));
@@ -30,16 +33,18 @@ const App = () => {
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
-        <I18nextProvider i18n={i18n}>
-          <Router>
-            <Routes>
-              <Route path={routes.notFound()} element={<NotFound />} />
-              <Route path={routes.chat()} element={<Chat />} />
-              <Route path={routes.login()} element={<Login />} />
-              <Route path={routes.signup()} element={<Signup />} />
-            </Routes>
-          </Router>
-        </I18nextProvider>
+        <Provider store={store}>
+          <I18nextProvider i18n={i18n}>
+            <Router>
+              <Routes>
+                <Route path={routes.notFound()} element={<NotFound />} />
+                <Route path={routes.chat()} element={<Chat />} />
+                <Route path={routes.login()} element={<Login />} />
+                <Route path={routes.signup()} element={<Signup />} />
+              </Routes>
+            </Router>
+          </I18nextProvider>
+        </Provider>
       </ErrorBoundary>
     </RollbarProvider>
   );
