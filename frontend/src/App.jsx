@@ -1,11 +1,12 @@
 import './App.css';
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, initReactI18next } from 'react-i18next';
 import { ErrorBoundary, Provider as RollbarProvider } from '@rollbar/react';
 import { Provider, useDispatch } from 'react-redux';
-import i18n from './i18n.js';
 import io from 'socket.io-client';
+import i18next from 'i18next';
+import translationRU from './locales/ru.js';
 import Login from './pages/login.jsx';
 import NotFound from './pages/notFound.jsx';
 import Signup from './pages/signup.jsx';
@@ -15,10 +16,27 @@ import { addMessageState } from './slices/messagesSlice.js';
 import routes from './routes/routes.js';
 import store from './services/store.js';
 
-
 const App = () => {
   const socket = io();
   const dispatch = useDispatch();
+
+  const resources = {
+    ru: { translation: translationRU },
+  };
+
+  const options = {
+    resources,
+    lng: 'ru',
+    fallbackLng: 'ru',
+    debug: false,
+    interpolation: {
+      escapeValue: false,
+    },
+  };
+  const i18n = i18next.createInstance();
+  i18n
+    .use(initReactI18next)
+    .init(options);
 
   const rollbarConfig = {
     accessToken: process.env.REACT_APP_ROLLBAR_TOKEN,
