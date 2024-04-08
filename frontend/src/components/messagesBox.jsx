@@ -7,7 +7,7 @@ import filter from 'leo-profanity';
 import { useAddMessageMutation } from '../services/api.js';
 import arrow from '../images/arrow.png';
 import notify from '../utils/toast.js';
-import {getActiveChannel, getChannels, getMessages} from '../selectors/selectors';
+import { getActiveChannel, getChannels, getMessages } from '../selectors/selectors';
 
 const MessagesBox = () => {
   const { t } = useTranslation();

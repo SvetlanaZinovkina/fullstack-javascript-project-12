@@ -5,7 +5,7 @@ import { closeModal } from '../../slices/modalSlice.js';
 import ModalAddChannel from './modalAddChannel.jsx';
 import ModalDeleteChannel from './modalDeleteChannel.jsx';
 import ModalRenameChannel from './modalRenameChannel.jsx';
-import {getModalType} from '../../selectors/selectors';
+import { getModalType } from '../../selectors/selectors';
 
 const Modal = () => {
   const { t } = useTranslation();

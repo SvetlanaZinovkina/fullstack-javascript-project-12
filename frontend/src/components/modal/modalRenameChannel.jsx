@@ -8,7 +8,7 @@ import cn from 'classnames';
 import * as Yup from 'yup';
 import { useEditChannelMutation } from '../../services/api.js';
 import notify from '../../utils/toast.js';
-import {getChannelId, getChannels} from '../../selectors/selectors';
+import { getChannelId, getChannels } from '../../selectors/selectors';
 
 const ModalRenameChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();

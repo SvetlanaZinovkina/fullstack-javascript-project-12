@@ -10,7 +10,7 @@ import cn from 'classnames';
 import { setActiveChannel } from '../../slices/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/api.js';
 import notify from '../../utils/toast.js';
-import {getChannels} from '../../selectors/selectors';
+import { getChannels } from '../../selectors/selectors';
 
 const ModalAddChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
