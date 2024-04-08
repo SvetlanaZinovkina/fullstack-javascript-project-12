@@ -3,12 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useRemoveChannelMutation } from '../../services/api.js';
 import notify from '../../utils/toast.js';
+import {getChannelId} from '../../selectors/selectors';
 
 const ModalDeleteChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const [removeChannel] = useRemoveChannelMutation();
 
-  const channelIdToDelete = useSelector((state) => state.modal.channelID);
+  const channelIdToDelete = useSelector(getChannelId);
 
   const handleDeleteChannel = async () => {
     try {

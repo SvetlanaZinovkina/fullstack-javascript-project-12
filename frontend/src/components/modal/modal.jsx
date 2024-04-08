@@ -5,11 +5,12 @@ import { closeModal } from '../../slices/modalSlice.js';
 import ModalAddChannel from './modalAddChannel.jsx';
 import ModalDeleteChannel from './modalDeleteChannel.jsx';
 import ModalRenameChannel from './modalRenameChannel.jsx';
+import {getModalType} from '../../selectors/selectors';
 
 const Modal = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const type = useSelector((state) => state.modal.type);
+  const type = useSelector(getModalType);
   let currentModal;
 
   const handleCloseModal = () => dispatch(closeModal());

@@ -4,15 +4,16 @@ import { ToastContainer } from 'react-toastify';
 import Navigation from '../components/navigation.jsx';
 import ChatForm from '../components/chat.jsx';
 import Modal from '../components/modal/modal.jsx';
+import { getIsModalOpen } from '../selectors/selectors.js';
 
 const Chat = () => {
-  const isModal = useSelector((state) => state.modal.isOpened);
+  const isModalOpen = useSelector(getIsModalOpen);
   return (
     <div className="h-100" id="chat">
       <div className="d-flex flex-column h-100">
         <Navigation />
         <ChatForm />
-        {isModal && <Modal />}
+        {isModalOpen && <Modal />}
       </div>
       <ToastContainer />
     </div>

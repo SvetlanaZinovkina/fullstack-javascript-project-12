@@ -23,6 +23,7 @@ export default {
     addChannel: 'Канал создан',
     deleteChannel: 'Канал удалён',
     renameChannel: 'Канал переименован',
+    spanChannel: 'Управление каналом',
   },
   notFound: {
     notPage: 'Страница не найдена',

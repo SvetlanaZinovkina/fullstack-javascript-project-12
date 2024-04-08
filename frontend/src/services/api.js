@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import routes from '../routes/routes.js';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: routes.path(),
+  baseUrl: routes.defaultApiPath(),
   prepareHeaders: (headers) => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -17,54 +17,54 @@ const api = createApi({
   endpoints: (builder) => ({
     createUser: builder.mutation({
       query: (newUser) => ({
-        url: '/signup',
+        url: routes.signUpPage(),
         method: 'POST',
         body: newUser,
       }),
     }),
     login: builder.mutation({
       query: (credentials) => ({
-        url: '/login',
+        url: routes.loginPage(),
         method: 'POST',
         body: credentials,
       }),
     }),
     getChannels: builder.query({
-      query: () => '/channels',
+      query: () => routes.channelsPath(),
     }),
     addChannel: builder.mutation({
       query: (newChannel) => ({
-        url: '/channels',
+        url: routes.channelsPath(),
         method: 'POST',
         body: newChannel,
       }),
     }),
     editChannel: builder.mutation({
       query: ({ id, editedChannel }) => ({
-        url: `/channels/${id}`,
+        url: routes.getChannelPath(id),
         method: 'PATCH',
         body: editedChannel,
       }),
     }),
     removeChannel: builder.mutation({
       query: (id) => ({
-        url: `/channels/${id}`,
+        url: routes.getChannelPath(id),
         method: 'DELETE',
       }),
     }),
     getMessages: builder.query({
-      query: () => '/messages',
+      query: () => routes.messagesPath(),
     }),
     addMessage: builder.mutation({
       query: (newMessage) => ({
-        url: '/messages',
+        url: routes.messagesPath(),
         method: 'POST',
         body: newMessage,
       }),
     }),
     editMessage: builder.mutation({
       query: ({ id, editedMessage }) => ({
-        url: `/messages/${id}`,
+        url: routes.getMessagePath(id),
         method: 'PATCH',
         body: editedMessage,
       }),

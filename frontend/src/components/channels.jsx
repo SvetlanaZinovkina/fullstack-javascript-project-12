@@ -6,13 +6,14 @@ import { ButtonGroup, Dropdown } from 'react-bootstrap';
 import { setActiveChannel } from '../slices/channelsSlice.js';
 import { openModal } from '../slices/modalSlice.js';
 import plus from '../images/plus.png';
+import { getActiveChannel, getChannels } from '../selectors/selectors.js';
 
 const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const channels = useSelector((state) => state.channels.channels);
-  const activeChannel = useSelector((state) => state.channels.activeChannel);
+  const channels = useSelector(getChannels);
+  const activeChannel = useSelector(getActiveChannel);
 
   const handleChannelClick = (id) => dispatch(setActiveChannel(id));
 
@@ -75,7 +76,7 @@ const Channels = () => {
                     id="channelDropdown"
                     className={classChannelModal}
                   >
-                    <span className="visually-hidden">Управление каналом</span>
+                    <span className="visually-hidden">{t('chat.spanChannel')}</span>
                   </Dropdown.Toggle>
 
                   <Dropdown.Menu style={{

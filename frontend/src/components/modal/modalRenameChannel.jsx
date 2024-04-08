@@ -8,6 +8,7 @@ import cn from 'classnames';
 import * as Yup from 'yup';
 import { useEditChannelMutation } from '../../services/api.js';
 import notify from '../../utils/toast.js';
+import {getChannelId, getChannels} from '../../selectors/selectors';
 
 const ModalRenameChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
@@ -25,11 +26,11 @@ const ModalRenameChannel = ({ handleCloseModal }) => {
         .required(t('warnSchema.required')),
     });
 
-  const channels = useSelector((state) => state.channels.channels);
+  const channels = useSelector(getChannels);
   const channelNames = channels.map((channel) => channel.name);
   const validationSchema = channelsSchema(channelNames);
 
-  const channelIdToRename = useSelector((state) => state.modal.channelID);
+  const channelIdToRename = useSelector(getChannelId);
   const [channel] = channels.filter(({ id }) => id === channelIdToRename);
   const handleRenameChannels = async (newChannelName) => {
     try {

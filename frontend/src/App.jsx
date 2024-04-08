@@ -55,10 +55,10 @@ const App = () => {
           <I18nextProvider i18n={i18n}>
             <Router>
               <Routes>
-                <Route path={routes.notFound()} element={<NotFound />} />
-                <Route path={routes.chat()} element={<Chat />} />
-                <Route path={routes.login()} element={<Login />} />
-                <Route path={routes.signup()} element={<Signup />} />
+                <Route path={routes.notFoundPage()} element={<NotFound />} />
+                <Route path={routes.mainPage()} element={<Chat />} />
+                <Route path={routes.loginPage()} element={<Login />} />
+                <Route path={routes.signUpPage()} element={<Signup />} />
               </Routes>
             </Router>
           </I18nextProvider>

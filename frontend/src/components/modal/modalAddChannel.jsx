@@ -10,12 +10,13 @@ import cn from 'classnames';
 import { setActiveChannel } from '../../slices/channelsSlice.js';
 import { useAddChannelMutation } from '../../services/api.js';
 import notify from '../../utils/toast.js';
+import {getChannels} from '../../selectors/selectors';
 
 const ModalAddChannel = ({ handleCloseModal }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [addChannel] = useAddChannelMutation();
-  const channels = useSelector((state) => state.channels.channels);
+  const channels = useSelector(getChannels);
   const channelNames = channels.map((channel) => channel.name);
   const handleActiveChannel = (id) => dispatch(setActiveChannel(id));
   const inputRef = useRef();
