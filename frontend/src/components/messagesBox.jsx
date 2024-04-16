@@ -7,7 +7,9 @@ import filter from 'leo-profanity';
 import { useAddMessageMutation } from '../services/api.js';
 import arrow from '../images/arrow.png';
 import notify from '../utils/toast.js';
-import { getActiveChannel, getChannels, getMessages } from '../selectors/selectors';
+import {
+  getActiveChannelId, getMessages, getActiveChannel, getMessagesCount,
+} from '../selectors/selectors';
 
 const MessagesBox = () => {
   const { t } = useTranslation();
@@ -23,11 +25,9 @@ const MessagesBox = () => {
 
   const messages = useSelector(getMessages);
   const usernameLocalstorage = localStorage.getItem('username');
-  const channels = useSelector(getChannels);
-  const activeChannelId = useSelector(getActiveChannel);
-  const activeChannel = channels.find(({ id }) => id === activeChannelId);
-  const activeMsg = messages && messages.filter(({ channelId }) => channelId === activeChannelId);
-  const countMessages = messages ? activeMsg.length : 0;
+  const activeChannelId = useSelector(getActiveChannelId);
+  const activeChannel = useSelector(getActiveChannel);
+  const countMessages = useSelector(getMessagesCount);
 
   useEffect(() => {
     messagesEndRef.current?.lastChild?.scrollIntoView({ behavior: 'smooth' });

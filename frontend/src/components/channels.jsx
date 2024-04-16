@@ -6,14 +6,14 @@ import { ButtonGroup, Dropdown } from 'react-bootstrap';
 import { setActiveChannel } from '../slices/channelsSlice.js';
 import { openModal } from '../slices/modalSlice.js';
 import plus from '../images/plus.png';
-import { getActiveChannel, getChannels } from '../selectors/selectors.js';
+import { getActiveChannelId, getChannels } from '../selectors/selectors.js';
 
 const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
   const channels = useSelector(getChannels);
-  const activeChannel = useSelector(getActiveChannel);
+  const activeChannel = useSelector(getActiveChannelId);
 
   const handleChannelClick = (id) => dispatch(setActiveChannel(id));
 
