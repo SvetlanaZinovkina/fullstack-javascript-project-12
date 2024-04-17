@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router';
 import { Formik, Form, Field } from 'formik';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import * as Yup from 'yup';
+import { AuthContext } from '../context/authContext.jsx';
 import welcomeLogin from '../images/welcome_login.jpg';
-import { setUserToken } from '../slices/loginSlice.js';
 import { useLoginMutation } from '../services/api.js';
 
 const LoginForm = () => {
+  const { setUser } = useContext(AuthContext);
   const { t } = useTranslation();
   const [login, { isError }] = useLoginMutation();
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const signInSchema = Yup.object().shape({
@@ -32,9 +31,7 @@ const LoginForm = () => {
     try {
       const response = await login(userData);
       const { token, username } = response.data;
-      localStorage.setItem('token', token);
-      localStorage.setItem('username', username);
-      dispatch(setUserToken(response.data));
+      setUser(token, username);
       navigate('/');
     } catch (error) {
       console.error('Error login:', error);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Container, Row, Col, Button,
 } from 'react-bootstrap';
@@ -12,15 +12,15 @@ import cn from 'classnames';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
+import { AuthContext } from '../context/authContext.jsx';
 import signupBear from '../images/signupBear.svg';
 import { useCreateUserMutation } from '../services/api';
 import notify from '../utils/toast.js';
-import { setUserToken } from '../slices/loginSlice.js';
 
 const SignupForm = () => {
+  const { setUser } = useContext(AuthContext);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const signupSchema = Yup.object().shape({
     username: Yup.string()
@@ -45,9 +45,7 @@ const SignupForm = () => {
         error.statusCode = response.error.status;
         throw error;
       }
-      localStorage.setItem('token', response.data.token);
-      localStorage.setItem('username', response.data.username);
-      dispatch(setUserToken(response.data));
+      setUser(response.data.token, response.data.username);
       navigate('/');
     } catch (error) {
       if (error.statusCode === 409) {

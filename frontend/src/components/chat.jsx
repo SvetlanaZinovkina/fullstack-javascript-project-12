@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { useDispatch } from 'react-redux';
 import { setChannels } from '../slices/channelsSlice.js';
@@ -7,13 +7,14 @@ import {
   useGetChannelsQuery,
   useGetMessagesQuery,
 } from '../services/api.js';
+import { AuthContext } from '../context/authContext.jsx';
 import Channels from './channels.jsx';
 import MessagesBox from './messagesBox.jsx';
 
 const ChatForm = () => {
+  const { isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const token = localStorage.getItem('token');
 
   const { data, isSuccess } = useGetChannelsQuery();
   const messagesQuery = useGetMessagesQuery();
@@ -28,7 +29,7 @@ const ChatForm = () => {
     [isSuccess, messagesQuery.isSuccess, data, messagesQuery.data, dispatch],
   );
 
-  if (!token) {
+  if (!isAuthenticated()) {
     return navigate('/login');
   }
 

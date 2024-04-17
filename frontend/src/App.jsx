@@ -15,6 +15,7 @@ import { addChannelState, removeChannelState, renameChannelState } from './slice
 import { addMessageState } from './slices/messagesSlice.js';
 import routes from './routes/routes.js';
 import store from './services/store.js';
+import { AuthProvider } from './context/authContext.jsx';
 
 const App = () => {
   const socket = io();
@@ -53,14 +54,16 @@ const App = () => {
       <ErrorBoundary>
         <Provider store={store}>
           <I18nextProvider i18n={i18n}>
-            <Router>
-              <Routes>
-                <Route path={routes.notFoundPage()} element={<NotFound />} />
-                <Route path={routes.mainPage()} element={<Chat />} />
-                <Route path={routes.loginPage()} element={<Login />} />
-                <Route path={routes.signUpPage()} element={<Signup />} />
-              </Routes>
-            </Router>
+            <AuthProvider>
+              <Router>
+                <Routes>
+                  <Route path={routes.notFoundPage()} element={<NotFound />} />
+                  <Route path={routes.mainPage()} element={<Chat />} />
+                  <Route path={routes.loginPage()} element={<Login />} />
+                  <Route path={routes.signUpPage()} element={<Signup />} />
+                </Routes>
+              </Router>
+            </AuthProvider>
           </I18nextProvider>
         </Provider>
       </ErrorBoundary>

@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
+import { AuthContext } from '../context/authContext.jsx';
 
 const Navigation = () => {
   const { t } = useTranslation();
+  const { logout } = useContext(AuthContext);
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
   const resetUser = () => {
-    localStorage.clear();
+    logout();
     navigate('/login');
   };
   return (
