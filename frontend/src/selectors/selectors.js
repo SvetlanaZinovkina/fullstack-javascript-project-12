@@ -19,7 +19,7 @@ export const getActiveChannel = createSelector(
 
 export const getActiveMessage = createSelector(
   [getMessages, getActiveChannelId],
-  (messages, activeChannelId) => messages && messages.filter((message) => message.channelId === activeChannelId),
+  (messages, actChnlId) => messages && messages.filter((msg) => msg.channelId === actChnlId),
 );
 
 export const getMessagesCount = createSelector(

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, useMemo } from 'react';
 
 export const AuthContext = createContext();
 
@@ -7,11 +7,11 @@ export const AuthProvider = ({ children }) => {
   const [username, setUsername] = useState(null);
   const tokenLocal = localStorage.getItem('token');
 
-  const setUser = (token, username) => {
-    setToken(token);
-    setUsername(username);
-    localStorage.setItem('token', token);
-    localStorage.setItem('username', username);
+  const setUser = (newToken, newUsername) => {
+    setToken(newToken);
+    setUsername(newUsername);
+    localStorage.setItem('token', newToken);
+    localStorage.setItem('username', newUsername);
   };
 
   const logout = () => {
@@ -23,11 +23,12 @@ export const AuthProvider = ({ children }) => {
 
   const isAuthenticated = () => !!tokenLocal;
 
+  const value = useMemo(() => ({
+    token, username, setUser, logout, isAuthenticated,
+  }), [token, username, setUser, logout, isAuthenticated]);
+
   return (
-    <AuthContext.Provider value={{
-      token, username, setUser, logout, isAuthenticated,
-    }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );

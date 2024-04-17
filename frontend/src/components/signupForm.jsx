@@ -10,7 +10,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import cn from 'classnames';
 import { useNavigate } from 'react-router';
-import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import { AuthContext } from '../context/authContext.jsx';
 import signupBear from '../images/signupBear.svg';
