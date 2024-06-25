@@ -13,7 +13,7 @@ Visit the live demo: [Hexlet chat](https://svetlana-zinovkina.onrender.com/)
 
 ## Description
 
-This project is built using the MERN stack (MongoDB, Express.js, React, Node.js) for the full-stack development of a chat application. The backend is powered by the `@hexlet/chat-server` library, providing robust and efficient chat server functionality.
+This project is built using a stack (Express.js, React, Node.js) for the full-stack development of a chat application. The backend is powered by the `@hexlet/chat-server` library, providing robust and efficient chat server functionality.
 
 - **Frontend:**
     - React with React Router for UI development
